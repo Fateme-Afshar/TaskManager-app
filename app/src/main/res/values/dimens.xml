@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="pad_10">10dp</dimen>
+    <dimen name="pad_5">5dp</dimen>
+    <dimen name="mrg_5">5dp</dimen>
+    <dimen name="mrg_10">10dp</dimen>
+    <dimen name="width_56">56dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

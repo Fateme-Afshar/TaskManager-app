@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.taskmaneger.viewModel.SignUpViewModel" />
+        <variable
+            name="fragment"
+            type="com.example.taskmaneger.view.fragment.SignUpFragment" />
+    </data>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:hint="@string/username"
+            android:layout_margin="@dimen/mrg_10"
+            app:boxStrokeColor="@color/light_purple"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:onTextChanged="@{viewModel::onTextChangedUsername}"
+                android:layout_margin="@dimen/mrg_5"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:hint="@string/password"
+            android:layout_margin="@dimen/mrg_10"
+            app:boxStrokeColor="@color/purple"
+            app:endIconMode="password_toggle"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/pass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:layout_margin="@dimen/mrg_5"
+                android:inputType="numberPassword"
+                android:onTextChanged="@{viewModel::onTextChangedPassword}"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/check_admin"
+            android:layout_margin="@dimen/mrg_5"
+            android:textColor="@color/dark_purple"
+            android:textSize="18sp"
+            android:padding="@dimen/pad_10"
+            android:gravity="center_horizontal" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            app:boxStrokeColor="@color/so_light_purple"
+            android:hint="@string/admin_code"
+            android:layout_margin="@dimen/mrg_10"
+            app:endIconMode="password_toggle"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/admin_pass"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:textColor="@color/black"
+                android:layout_margin="@dimen/mrg_5"
+                android:onTextChanged="@{viewModel::onTextChangedAdminCode}"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sign_up"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/mrg_10"
+            android:text="@string/sign_up"
+            android:textAllCaps="false"
+            android:onClick="@{()->viewModel.onSignClickListener()}"
+            />
+
+    </LinearLayout>
+</layout>

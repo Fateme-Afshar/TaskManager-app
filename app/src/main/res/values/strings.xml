@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">TaskManeger</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="username">user name</string>
+    <string name="password">password</string>
+    <string name="check_admin">If you are admin, Please Enter admin password</string>
+    <string name="admin_code">admin code</string>
+    <string name="user_exist">User already exist</string>
 </resources>

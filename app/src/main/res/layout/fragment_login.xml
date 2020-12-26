@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.example.taskmaneger.view.fragment.LoginFragment" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/img_login"
+            android:layout_width="214dp"
+            android:layout_height="173dp"
+            android:background="@drawable/login_img"
+            app:layout_constraintBaseline_toBaselineOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/guide_center_pos" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_center_pos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".5" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_layout_username"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/guide_center_pos"
+            app:layout_constraintStart_toStartOf="@+id/img_login"
+            app:layout_constraintEnd_toEndOf="@+id/img_login"
+            android:layout_marginTop="15dp"
+            android:hint="@string/username"
+            app:boxStrokeColor="@color/indigo"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:padding="10dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/txt_input_layout_pass"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toBottomOf="@+id/txt_input_layout_username"
+            app:layout_constraintStart_toStartOf="@+id/txt_input_layout_username"
+            app:layout_constraintEnd_toEndOf="@+id/txt_input_layout_username"
+            android:layout_marginTop="15dp"
+            android:hint="@string/password"
+            app:boxStrokeColor="@color/indigo_light"
+            app:endIconMode="password_toggle"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:inputType="numberPassword"
+                android:padding="10dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_login"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            app:layout_constraintStart_toStartOf="@+id/txt_input_layout_pass"
+            app:layout_constraintTop_toBottomOf="@+id/txt_input_layout_pass"
+
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_sign"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/sign_up"
+            android:textAllCaps="false"
+            android:onClick="@{()->fragment.callback.onSignBtnClick()}"
+            app:layout_constraintEnd_toEndOf="@+id/txt_input_layout_pass"
+            app:layout_constraintStart_toEndOf="@id/btn_login"
+            app:layout_constraintTop_toBottomOf="@+id/txt_input_layout_pass" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
