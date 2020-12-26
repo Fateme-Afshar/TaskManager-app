@@ -60,7 +60,7 @@ public class LoginFragment extends Fragment implements IOnClickListener {
                 container,
                 false);
         mBinding.setFragment(this);
-
+        mBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
     }
 

@@ -39,6 +39,10 @@ public class UserRepository implements IRepository<User> {
         return mDAO.get(id);
     }
 
+    public User get(String username) {
+        return mDAO.get(username);
+    }
+
     @Override
     public List<User> getList() {
         return mDAO.getList();

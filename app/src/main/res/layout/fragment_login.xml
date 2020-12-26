@@ -4,6 +4,9 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="com.example.taskmaneger.viewModel.LoginViewModel" />
+        <variable
             name="fragment"
             type="com.example.taskmaneger.view.fragment.LoginFragment" />
     </data>
@@ -42,6 +45,7 @@
             android:layout_marginTop="15dp"
             android:hint="@string/username"
             app:boxStrokeColor="@color/indigo"
+
             >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -50,6 +54,7 @@
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
                 android:padding="10dp"
+                android:onTextChanged="@{viewModel::onTextChangedUsername}"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -75,6 +80,7 @@
                 android:textColor="@color/black"
                 android:inputType="numberPassword"
                 android:padding="10dp"
+                android:onTextChanged="@{viewModel::onTextChangedPassword}"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -90,6 +96,7 @@
             android:layout_marginTop="10dp"
             android:text="@string/login"
             android:textAllCaps="false"
+            android:onClick="@{()->viewModel.onLoginClickListener()}"
             app:layout_constraintStart_toStartOf="@+id/txt_input_layout_pass"
             app:layout_constraintTop_toBottomOf="@+id/txt_input_layout_pass"
 

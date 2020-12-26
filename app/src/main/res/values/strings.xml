@@ -9,4 +9,6 @@
     <string name="check_admin">If you are admin, Please Enter admin password</string>
     <string name="admin_code">admin code</string>
     <string name="user_exist">User already exist</string>
+    <string name="user_dont_exist">At first sign up</string>
+    <string name="invalid_information">Invalid information</string>
 </resources>
