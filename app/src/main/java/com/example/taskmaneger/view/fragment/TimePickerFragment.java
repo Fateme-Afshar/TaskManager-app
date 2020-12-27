@@ -1,16 +1,24 @@
 package com.example.taskmaneger.view.fragment;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.databinding.FragmentTimePickerBinding;
+import com.example.taskmaneger.viewModel.TimePickerViewModel;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -19,6 +27,12 @@ import java.util.Date;
  * create an instance of this fragment.
  */
 public class TimePickerFragment extends DialogFragment {
+    public static final String ARG_CURRENT_TIME = "Current Time";
+
+    private FragmentTimePickerBinding mBinding;
+    private TimePickerViewModel mViewModel;
+
+    private Date mCurrentDate;
 
     public TimePickerFragment() {
         // Required empty public constructor
@@ -27,6 +41,7 @@ public class TimePickerFragment extends DialogFragment {
     public static TimePickerFragment newInstance(Date currentTime) {
         TimePickerFragment fragment = new TimePickerFragment();
         Bundle args = new Bundle();
+        args.putSerializable(ARG_CURRENT_TIME, currentTime);
         fragment.setArguments(args);
         return fragment;
     }
@@ -34,12 +49,43 @@ public class TimePickerFragment extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+            mCurrentDate = (Date) getArguments().getSerializable(ARG_CURRENT_TIME);
+
+        mViewModel = new ViewModelProvider(this).get(TimePickerViewModel.class);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_time_picker, container, false);
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        mBinding = DataBindingUtil.inflate
+                (inflater,
+                        R.layout.fragment_time_picker,
+                        null,
+                        false);
+
+        return new AlertDialog.Builder(getContext()).
+                setTitle(R.string.time_picker_title).
+                setIcon(R.mipmap.ic_launcher).
+                setView(mBinding.getRoot()).
+                setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+                    Date timePicked = getUserSelectedTime();
+                    mViewModel.setResult(this, timePicked);
+                }).
+                setNegativeButton(android.R.string.cancel, null).
+                create();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private Date getUserSelectedTime() {
+        Calendar calendar = Calendar.getInstance();
+        int hour = mBinding.timePicker.getHour();
+        calendar.set(Calendar.HOUR, hour);
+        int minute = mBinding.timePicker.getMinute();
+        calendar.set(Calendar.MINUTE, minute);
+
+        return calendar.getTime();
     }
 }

@@ -22,5 +22,6 @@
     <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="date_picker_title">Date Of Crime</string>
+    <string name="time_picker_title">Time Of Crime</string>
     <string name="btn_cancel">Cancel</string>
 </resources>

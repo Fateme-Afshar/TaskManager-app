@@ -7,34 +7,9 @@
 
     </data>
 
-    <FrameLayout
+    <TimePicker
+        android:id="@+id/time_picker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".view.fragment.DatePickerFragment">
-
-        <TimePicker
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|left"
-            android:text="@string/btn_cancel"
-            android:textAllCaps="false"
-            app:icon="@drawable/ic_cancel"
-            android:layout_margin="@dimen/mrg_10" />
-
-        <com.google.android.material.button.MaterialButton
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:text="@string/task_save"
-            android:textAllCaps="false"
-            app:icon="@drawable/ic_check"
-            android:layout_margin="@dimen/mrg_10" />
-
-    </FrameLayout>
+        tools:context=".view.fragment.DatePickerFragment"/>
 </layout>

@@ -104,7 +104,9 @@
                     android:text="@string/task_time"
                     android:textAllCaps="false"
                     android:textSize="15sp"
-                    app:icon="@drawable/ic_time" />
+                    app:icon="@drawable/ic_time"
+                    android:onClick="@{()->viewModel.onTimePickerClickListener(fragment)}"
+                    />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_date"

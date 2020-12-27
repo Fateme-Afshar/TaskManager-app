@@ -67,16 +67,16 @@ public class DatePickerFragment extends DialogFragment {
                 null,
                 false);
         initDatePicker();
-        return  new AlertDialog.Builder(getActivity())
-                .setTitle(R.string.date_picker_title)
-                .setIcon(R.mipmap.ic_launcher)
-                .setView(mBinding.getRoot())
-                .setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
+        return  new AlertDialog.Builder(getActivity()).
+                setTitle(R.string.date_picker_title).
+                setIcon(R.mipmap.ic_launcher).
+                setView(mBinding.getRoot()).
+                setPositiveButton(android.R.string.ok, (dialogInterface, i) -> {
                     Date datePicked = getSelectedDateFromDatePicker();
                     mDatePickerViewModel.setResult(DatePickerFragment.this, datePicked);
-                })
-                .setNegativeButton(android.R.string.cancel, null)
-                .create();
+                }).
+                setNegativeButton(android.R.string.cancel, null).
+                create();
     }
 
     private void initDatePicker() {

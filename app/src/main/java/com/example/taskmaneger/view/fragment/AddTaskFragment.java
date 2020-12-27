@@ -88,6 +88,11 @@ public class AddTaskFragment extends Fragment {
             mViewModel.setTaskDate(userSelectedDate);
 
             mBinding.btnDate.setText(DateUtils.getShortDateFormat(userSelectedDate));
+        }else if (requestCode==AddTaskViewModel.REQUEST_CODE_TIME_PICKER){
+            Date userSelectedTime=mViewModel.getUserSelectedTime(data);
+            mViewModel.setTaskTime(userSelectedTime);
+
+            mBinding.btnTime.setText(DateUtils.getShortTimeFormat(userSelectedTime));
         }
     }
 }
