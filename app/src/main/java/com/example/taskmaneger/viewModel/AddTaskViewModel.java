@@ -55,10 +55,12 @@ public class AddTaskViewModel extends AndroidViewModel {
     }
 
     public void onSaveBtnClickListener() {
-        if (mPhotoFile.getAbsolutePath().equals(""))
+        if (mPhotoFile.getAbsolutePath().equals("")) {
             mTask.setImgAddress(mPhotoFile.getAbsolutePath());
-        else
+        }
+        else{
             mTask.setImgAddress("dsa");
+        }
 
         mTask.setTaskState(mTaskState);
         mTask.setUserId(mUserId);
