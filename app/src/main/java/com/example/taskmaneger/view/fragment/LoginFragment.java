@@ -16,7 +16,8 @@ import com.example.taskmaneger.databinding.FragmentLoginBinding;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.LoginViewModel;
 
-public class LoginFragment extends Fragment implements IOnClickListener {
+public class LoginFragment extends Fragment
+        implements IOnClickListener{
     private FragmentLoginBinding mBinding;
     private LoginViewModel mViewModel;
 
