@@ -6,6 +6,7 @@ import androidx.room.Room;
 
 import com.example.taskmaneger.data.room.TaskManagerDatabase;
 import com.example.taskmaneger.data.room.UserTableDAO;
+import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.model.User;
 
 import java.util.List;
@@ -63,9 +64,14 @@ public class UserRepository implements IRepository<User> {
         mDAO.update(user);
     }
 
+    public List<Task> getTasks(){
+        return mDAO.getTasks().getTaskList();
+    }
+
     public boolean checkExistUser(String username) {
         if (mDAO.get(username) == null)
             return false;
         return true;
     }
+
 }

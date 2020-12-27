@@ -11,4 +11,14 @@
     <string name="user_exist">User already exist</string>
     <string name="user_dont_exist">At first sign up</string>
     <string name="invalid_information">Invalid information</string>
+    <string name="task_title">Title</string>
+    <string name="hint_task_title">Task title</string>
+    <string name="task_description">Description</string>
+    <string name="hint_task_description">Task description</string>
+    <string name="task_time">Time</string>
+    <string name="task_date">Date</string>
+    <string name="task_save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
 </resources>

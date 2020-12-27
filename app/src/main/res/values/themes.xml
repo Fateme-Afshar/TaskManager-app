@@ -10,4 +10,34 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="HeaderTextStyle">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:padding">@dimen/pad_5</item>
+        <item name="android:layout_margin">@dimen/mrg_10</item>
+    </style>
+
+    <style name="TextStyle" >
+        <item name="android:padding">5dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="TextStyle.TextStyleBold">
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:layout_margin">@dimen/mrg_5</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="BottomSheetTextStyle" parent="@style/Widget.MaterialComponents.ExtendedFloatingActionButton.Icon">
+        <item name="backgroundTint">@color/so_light_gray</item>
+        <item name="android:textColor">@color/light_gray</item>
+        <item name="titleMargin">15dp</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+
 </resources>

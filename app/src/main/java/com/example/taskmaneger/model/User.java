@@ -18,7 +18,7 @@ public class User {
     private String mUsername;
     @ColumnInfo(name = UserColumns.PASSWORD)
     private String mPassword;
-    @ColumnInfo(name = UserColumns.ISADMIN)
+    @ColumnInfo(name = UserColumns.IS_ADMIN)
     private boolean isAdmin;
     @ColumnInfo(name = UserColumns.MEMBERSHIP)
     private Date mMembershipDate;

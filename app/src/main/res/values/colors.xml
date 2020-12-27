@@ -15,6 +15,7 @@
     <color name="indigo">#081d30</color>
     <color name="indigo_light">#C1D2D8</color>
     <color name="red">#FF0000</color>
+    <color name="green">#09700D</color>
 
     <!--basic color-->
     <color name="black">#000</color>

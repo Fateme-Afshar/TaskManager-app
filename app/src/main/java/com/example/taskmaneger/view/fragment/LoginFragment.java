@@ -70,7 +70,7 @@ public class LoginFragment extends Fragment
     }
 
     @Override
-    public void onSignClickListener() {
+    public void onButtonClickListener() {
         mCallback.onSignBtnClick();
     }
 

@@ -9,7 +9,7 @@ import com.example.taskmaneger.data.UserRepository;
 import com.example.taskmaneger.model.User;
 
 public class TaskManagerViewModel extends AndroidViewModel {
-    private UserRepository mUserRepository;
+    private final UserRepository mUserRepository;
     private User mUser;
 
     public TaskManagerViewModel(@NonNull Application application) {

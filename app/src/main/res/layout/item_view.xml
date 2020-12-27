@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/mrg_5"
+    >
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        >
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_task"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/img_task"
+            />
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextStyle"
+        android:id="@+id/task_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/card_view"
+        android:layout_toRightOf="@+id/card_view"
+        tools:text="@string/task_title"
+        android:layout_marginLeft="@dimen/mrg_5"
+        android:textColor="@color/indigo"
+        />
+
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/btn_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:background="#00FFFFFF"
+        android:src="@drawable/ic_menu" />
+
+    <com.google.android.material.textview.MaterialTextView
+        style="@style/TextStyle"
+        android:id="@+id/content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/card_view"
+        android:layout_toRightOf="@+id/card_view"
+        android:layout_below="@+id/task_title"
+        android:layout_marginLeft="@dimen/mrg_5"
+        tools:text="this is my task"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/task_date"
+        style="@style/TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/task_title"
+        android:text="20/25/10"
+        android:textColor="@color/black"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/task_time"
+        style="@style/TextStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/task_date"
+        android:text="20:39"
+        android:textColor="@color/black"
+        />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_below="@id/card_view"
+        android:layout_alignParentRight="true"
+        android:background="#BDBDBA"
+        android:layout_margin="@dimen/mrg_5"
+        android:layout_marginTop="@dimen/mrg_5"
+        />
+
+</RelativeLayout>

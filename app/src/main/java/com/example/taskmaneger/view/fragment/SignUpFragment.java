@@ -66,7 +66,7 @@ public class SignUpFragment extends Fragment implements IOnClickListener {
     }
 
     @Override
-    public void onSignClickListener() {
+    public void onButtonClickListener() {
         mCallback.onSignUpClick();
     }
 

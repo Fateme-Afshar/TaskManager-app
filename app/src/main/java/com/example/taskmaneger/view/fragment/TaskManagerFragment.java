@@ -1,5 +1,6 @@
 package com.example.taskmaneger.view.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.example.taskmaneger.R;
 import com.example.taskmaneger.adapter.TaskManagerAdapter;
 import com.example.taskmaneger.databinding.FragmentTaskManagerBinding;
 import com.example.taskmaneger.model.TaskState;
+import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.TaskManagerViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

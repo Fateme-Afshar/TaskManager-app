@@ -41,9 +41,9 @@
             android:layout_width="300dp"
             android:layout_height="64dp"
             android:layout_gravity="center"
+            app:boxStrokeColor="@color/so_light_purple"
             android:hint="@string/password"
             android:layout_margin="@dimen/mrg_10"
-            app:boxStrokeColor="@color/purple"
             app:endIconMode="password_toggle"
             >
 

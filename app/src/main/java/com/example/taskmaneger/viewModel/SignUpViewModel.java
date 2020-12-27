@@ -46,7 +46,7 @@ public class SignUpViewModel extends AndroidViewModel {
                     mRepository.insert(mUser);
 
                     try {
-                            mOnSignBtnClickListener.onSignClickListener();
+                            mOnSignBtnClickListener.onButtonClickListener();
                     }catch (NullPointerException e){
                         Log.e(ProgramUtils.TAG," SignUpViewModel : "+e.toString());
                     }
