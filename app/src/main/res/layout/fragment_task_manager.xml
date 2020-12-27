@@ -15,7 +15,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="#f1f1f1f1"
+                    />
 
                 <androidx.viewpager2.widget.ViewPager2
                     android:id="@+id/view_pager2"

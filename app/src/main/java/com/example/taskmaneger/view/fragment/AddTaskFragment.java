@@ -2,9 +2,12 @@ package com.example.taskmaneger.view.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -17,6 +20,7 @@ import com.example.taskmaneger.R;
 import com.example.taskmaneger.databinding.FragmentAddTaskBinding;
 import com.example.taskmaneger.model.TaskState;
 import com.example.taskmaneger.utils.DateUtils;
+import com.example.taskmaneger.utils.PhotoUtils;
 import com.example.taskmaneger.viewModel.AddTaskViewModel;
 
 import java.util.Date;
@@ -62,6 +66,8 @@ public class AddTaskFragment extends Fragment {
         mTaskState=TaskState.valueOf(taskState);
 
         mViewModel=new ViewModelProvider(this).get(AddTaskViewModel.class);
+        mViewModel.setTaskState(mTaskState);
+        mViewModel.setUserId(mUserId);
     }
 
     @Override
@@ -93,6 +99,24 @@ public class AddTaskFragment extends Fragment {
             mViewModel.setTaskTime(userSelectedTime);
 
             mBinding.btnTime.setText(DateUtils.getShortTimeFormat(userSelectedTime));
+        }else if (requestCode==AddTaskViewModel.REQUEST_CODE_TAKE_PICTURE){
+            Uri photoUri = mViewModel.getUriPhoto();
+
+            getActivity().revokeUriPermission(photoUri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            updatePhoto();
         }
+    }
+
+    public void updatePhoto() {
+        if (mViewModel.getPhotoFile() == null || !mViewModel.getPhotoFile().exists())
+            return;
+
+        Bitmap image = PhotoUtils.getScalePhoto(
+                mViewModel.getPhotoFile().getAbsolutePath(),
+                mBinding.imvTaskImg.getHeight(),
+                mBinding.imvTaskImg.getWidth());
+
+        mBinding.imvTaskImg.setImageBitmap(image);
     }
 }
