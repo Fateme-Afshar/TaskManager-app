@@ -5,113 +5,135 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.example.taskmaneger.utils.DateUtils"/>
+        <variable
+            name="viewModel"
+            type="com.example.taskmaneger.viewModel.AddTaskViewModel" />
+        <variable
+            name="fragment"
+            type="com.example.taskmaneger.view.fragment.AddTaskFragment" />
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f1f1f1"
-        android:orientation="vertical"
-        android:gravity="center"
-        tools:context=".view.fragment.AddTaskFragment">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imv_task_img"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/img_task"
-            app:civ_border_width="1dp"
-            app:civ_border_color="#807F7F" />
-
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/btn_camera"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_camera"
-            android:backgroundTint="#f1f1f1" />
-
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/HeaderTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/task_title" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_task_title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/mrg_10"
-                android:layout_marginRight="@dimen/mrg_10"
-                android:hint="@string/hint_task_title" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/HeaderTextStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/task_description" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/ed_task_description"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/mrg_10"
-                android:layout_marginRight="@dimen/mrg_10"
-                android:hint="@string/hint_task_description" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+        android:layout_margin="@dimen/mrg_5"
+        >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/mrg_10"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_height="match_parent"
+            android:background="#f1f1f1"
+            android:orientation="vertical"
+            android:gravity="center"
+            tools:context=".view.fragment.AddTaskFragment">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imv_task_img"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/img_task"
+                android:layout_marginTop="@dimen/mrg_10"
+                app:civ_border_width="1dp"
+                app:civ_border_color="#807F7F" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_camera"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_camera"
+                android:backgroundTint="#f1f1f1" />
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/HeaderTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task_title" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_task_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/mrg_10"
+                    android:layout_marginRight="@dimen/mrg_10"
+                    android:hint="@string/hint_task_title"
+                    android:onTextChanged="@{viewModel::onTextTitleChanged}"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                style="@style/HeaderTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/task_description" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/ed_task_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/mrg_10"
+                    android:layout_marginRight="@dimen/mrg_10"
+                    android:hint="@string/hint_task_description"
+                    android:onTextChanged="@{viewModel::onTextDescriptionChanged}"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/mrg_10"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_time"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mrg_5"
+                    android:layout_weight="1"
+                    android:text="@string/task_time"
+                    android:textAllCaps="false"
+                    android:textSize="15sp"
+                    app:icon="@drawable/ic_time" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_date"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/mrg_5"
+                    android:layout_weight="1"
+                    android:text="@string/task_date"
+                    android:textAllCaps="false"
+                    android:textSize="15sp"
+                    app:icon="@drawable/ic_date"
+                    android:onClick="@{()->viewModel.onDatePickerClickListener(fragment)}"
+                    />
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_time"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:layout_width="0dp"
+                android:id="@+id/btn_save_task"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/mrg_5"
-                android:layout_weight="1"
-                android:text="@string/task_time"
-                android:textAllCaps="false"
-                android:textSize="15sp"
-                app:icon="@drawable/ic_time" />
+                android:layout_gravity="right"
+                android:text="@string/task_save"
+                app:icon="@drawable/ic_save"
+                android:layout_marginRight="@dimen/mrg_10"
+                android:layout_marginTop="@dimen/mrg_10"
+                android:layout_marginBottom="20dp"
+                />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_date"
-                style="@style/TextAppearance.MaterialComponents.Button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/mrg_5"
-                android:layout_weight="1"
-                android:text="@string/task_date"
-                android:textAllCaps="false"
-                android:textSize="15sp"
-                app:icon="@drawable/ic_date" />
         </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save_task"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="@string/task_save"
-            app:icon="@drawable/ic_save"
-            android:layout_marginRight="@dimen/mrg_10" />
-
-    </LinearLayout>
+    </ScrollView>
 </layout>

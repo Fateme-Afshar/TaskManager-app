@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment;
 import com.example.taskmaneger.R;
 import com.example.taskmaneger.view.SingleFragmentActivity;
 import com.example.taskmaneger.view.fragment.AddTaskFragment;
-import com.example.taskmaneger.view.fragment.SignUpFragment;
 import com.example.taskmaneger.view.fragment.StateFragment;
 import com.example.taskmaneger.view.fragment.TaskManagerFragment;
 
@@ -17,7 +16,7 @@ public class TaskManagerActivity extends SingleFragmentActivity
 
     public static final String EXTRA_USER_ID =
             "com.example.taskmaneger.User Id";
-    public static final String ADD_TASK_FRAGMENT_TAG = "Add Task Fragment";
+    public static final String STATE_FRAGMENT_TAG = "State Fragment";
 
     public static void start(Context context, long userId) {
         Intent starter = new Intent(context, TaskManagerActivity.class);
@@ -38,13 +37,13 @@ public class TaskManagerActivity extends SingleFragmentActivity
         getSupportFragmentManager().
                 beginTransaction().
                 add(StateFragment.newInstance(taskState,userId),
-                        ADD_TASK_FRAGMENT_TAG);
+                        STATE_FRAGMENT_TAG);
 
         getSupportFragmentManager().
                 beginTransaction().
                 replace(R.id.fragment_container,
                         AddTaskFragment.newInstance(userId,taskState)).
-                addToBackStack(ADD_TASK_FRAGMENT_TAG).
+                addToBackStack(STATE_FRAGMENT_TAG).
                 commit();
     }
 }

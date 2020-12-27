@@ -16,50 +16,55 @@ public class Task implements Serializable {
     @ColumnInfo(name = TaskColumns.ID)
     private long mId;
     @ColumnInfo(name = TaskColumns.TITLE)
-    private String mTaskTitle;
+    private String mTitle;
     @ColumnInfo(name = TaskColumns.CONTENT)
-    private String mTaskContent;
+    private String mDescription;
     @ColumnInfo(name = TaskColumns.STATE)
     private TaskState mTaskState;
     @ColumnInfo(name = TaskColumns.DATE)
-    private Date mTaskDate;
+    private Date mDate;
     @ColumnInfo(name = TaskColumns.TIME)
-    private Date mTaskTime;
+    private Date mTime;
     @ColumnInfo(name = TaskColumns.USER_ID)
     private long mUserId;
     @ColumnInfo(name = TaskColumns.IMAGE_ADDRESS)
     private String mImgAddress;
 
+    public Task() {
+        mDate=new Date();
+        mTime=new Date();
+    }
+
     public Task(long userId,
-                String taskTitle,
-                String taskContent,
+                String title,
+                String description,
                 TaskState taskState,
-                Date taskDate,
-                Date taskTime,
+                Date date,
+                Date time,
                 String imgAddress) {
-        mTaskTitle = taskTitle;
-        mTaskContent = taskContent;
+        mTitle = title;
+        mDescription = description;
         mTaskState = taskState;
-        mTaskDate = taskDate;
-        mTaskTime = taskTime;
+        mDate = date;
+        mTime = time;
         mUserId = userId;
         mImgAddress = imgAddress;
     }
 
-    public String getTaskTitle() {
-        return mTaskTitle;
+    public String getTitle() {
+        return mTitle;
     }
 
-    public void setTaskTitle(String taskTitle) {
-        mTaskTitle = taskTitle;
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
-    public String getTaskContent() {
-        return mTaskContent;
+    public String getDescription() {
+        return mDescription;
     }
 
-    public void setTaskContent(String taskContent) {
-        mTaskContent = taskContent;
+    public void setDescription(String description) {
+        mDescription = description;
     }
 
     public TaskState getTaskState() {
@@ -70,20 +75,20 @@ public class Task implements Serializable {
         mTaskState = taskState;
     }
 
-    public Date getTaskDate() {
-        return mTaskDate;
+    public Date getDate() {
+        return mDate;
     }
 
-    public void setTaskDate(Date taskDate) {
-        mTaskDate = taskDate;
+    public void setDate(Date date) {
+        mDate = date;
     }
 
-    public Date getTaskTime() {
-        return mTaskTime;
+    public Date getTime() {
+        return mTime;
     }
 
-    public void setTaskTime(Date taskTime) {
-        mTaskTime = taskTime;
+    public void setTime(Date time) {
+        mTime = time;
     }
 
     public long getUserId() {

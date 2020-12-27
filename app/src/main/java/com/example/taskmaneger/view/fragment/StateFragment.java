@@ -74,6 +74,13 @@ public class StateFragment extends Fragment {
                       container,
                       false);
 
+      mBinding.btnAddTask.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+                mCallback.onAddBtnClickListener(mUserId,mTaskState.toString());
+          }
+      });
+
       return mBinding.getRoot();
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TaskManeger</string>
+    <string name="app_name">Task Manager</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login">Login</string>
@@ -21,4 +21,6 @@
     <string name="edit">Edit</string>
     <string name="share">Share</string>
     <string name="delete">Delete</string>
+    <string name="date_picker_title">Date Of Crime</string>
+    <string name="btn_cancel">Cancel</string>
 </resources>
