@@ -129,6 +129,11 @@ public class StateFragment extends Fragment implements IOnClickListener {
         mAdapter=new TasksAdapter(getActivity(),taskList);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBinding.recyclerView.setAdapter(mAdapter);
+
+        if (taskList.size()==0)
+            mBinding.imvEmpty.setVisibility(View.VISIBLE);
+        else
+            mBinding.imvEmpty.setVisibility(View.GONE);
     }
 
     @Override

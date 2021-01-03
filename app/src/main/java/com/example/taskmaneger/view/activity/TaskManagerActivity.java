@@ -12,7 +12,8 @@ import com.example.taskmaneger.view.fragment.StateFragment;
 import com.example.taskmaneger.view.fragment.TaskManagerFragment;
 
 public class TaskManagerActivity extends SingleFragmentActivity
-        implements StateFragment.StateFragmentCallback {
+        implements StateFragment.StateFragmentCallback ,
+        AddTaskFragment.AddTaskFragmentCallback {
 
     public static final String EXTRA_USER_ID =
             "com.example.taskmaneger.User Id";
@@ -43,6 +44,16 @@ public class TaskManagerActivity extends SingleFragmentActivity
                 beginTransaction().
                 replace(R.id.fragment_container,
                         AddTaskFragment.newInstance(userId,taskState)).
+                addToBackStack(STATE_FRAGMENT_TAG).
+                commit();
+    }
+
+    @Override
+    public void onSaveBtnClickListener(long userId,String taskState) {
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.fragment_container,
+                        TaskManagerFragment.newInstance(userId)).
                 addToBackStack(STATE_FRAGMENT_TAG).
                 commit();
     }

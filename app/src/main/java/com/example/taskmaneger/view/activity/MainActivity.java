@@ -1,8 +1,12 @@
 package com.example.taskmaneger.view.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.example.taskmaneger.R;
@@ -16,6 +20,7 @@ public class MainActivity extends SingleFragmentActivity
 
     public static final String LOGIN_FRAGMENT_TAG = "Login Fragment";
     public static final String SIGN_UP_TAG = "Sign up";
+    private static final int PERMISSIONS_REQUEST_CAMERA = 1;
 
     public static void start(Context context) {
         Intent starter = new Intent(context, MainActivity.class);
@@ -58,4 +63,5 @@ public class MainActivity extends SingleFragmentActivity
                         LOGIN_FRAGMENT_TAG).
                 commit();
     }
+
 }

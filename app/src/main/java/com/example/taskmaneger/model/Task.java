@@ -1,5 +1,8 @@
 package com.example.taskmaneger.model;
 
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -114,5 +117,10 @@ public class Task implements Serializable {
 
     public void setImgAddress(String imgPath) {
         mImgAddress = imgPath;
+    }
+
+    @BindingAdapter("loadImage")
+    public void loadImage(ImageView imageView,String imgAddress){
+
     }
 }
