@@ -13,7 +13,8 @@ public class UserWithTask {
 
     @Relation(
             parentColumn = TaskManagerSchema.User.UserColumns.ID,
-            entityColumn =TaskManagerSchema.Task.TaskColumns.USER_ID
+            entityColumn =TaskManagerSchema.Task.TaskColumns.USER_ID,
+            entity = Task.class
     )
     public List<Task> mTaskList;
 

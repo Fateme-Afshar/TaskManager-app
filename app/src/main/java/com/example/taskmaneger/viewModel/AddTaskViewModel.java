@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -40,14 +41,14 @@ public class AddTaskViewModel extends AndroidViewModel {
         mRepository = TaskRepository.getInstance(getApplication());
     }
 
-    public void onTextTitleChanged(CharSequence title, int i, int j, int k) {
+    public void afterTextTitleChanged(Editable title) {
         if (!title.toString().equals(""))
             mTask.setTitle(title.toString());
         else
             mTask.setTitle("");
     }
 
-    public void onTextDescriptionChanged(CharSequence description, int i, int j, int k) {
+    public void afterTextDescriptionChanged(Editable description) {
         if (!description.toString().equals(""))
             mTask.setDescription(description.toString());
         else
@@ -55,15 +56,16 @@ public class AddTaskViewModel extends AndroidViewModel {
     }
 
     public void onSaveBtnClickListener() {
-        if (mPhotoFile.getAbsolutePath().equals("")) {
-            mTask.setImgAddress(mPhotoFile.getAbsolutePath());
+        if (mPhotoFile!=null) {
+           mTask.setImgAddress(mPhotoFile.getAbsolutePath());
         }
         else{
-            mTask.setImgAddress("dsa");
+            mTask.setImgAddress("");
         }
 
         mTask.setTaskState(mTaskState);
         mTask.setUserId(mUserId);
+        Log.d(ProgramUtils.TAG,"Add new task in database");
         mRepository.insert(mTask);
     }
 
@@ -156,4 +158,5 @@ public class AddTaskViewModel extends AndroidViewModel {
     public File getPhotoFile() {
         return mPhotoFile;
     }
+
 }

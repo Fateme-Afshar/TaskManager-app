@@ -1,6 +1,7 @@
 package com.example.taskmaneger.viewModel;
 
 import android.app.Application;
+import android.text.Editable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -26,15 +27,15 @@ public class SignUpViewModel extends AndroidViewModel {
         mOnSignBtnClickListener = onSignBtnClickListener;
     }
 
-    public void onTextChangedUsername(CharSequence username, int i, int j, int k) {
+    public void afterTextChangedUsername(Editable username) {
         mUser.setUsername(username.toString());
     }
 
-    public void onTextChangedPassword(CharSequence password, int i, int j, int k) {
+    public void afterTextChangedPassword(Editable password) {
             mUser.setPassword(password.toString());
     }
 
-    public void onTextChangedAdminCode(CharSequence adminCode, int i, int j, int k) {
+    public void afterTextChangedAdminCode(Editable adminCode) {
         mUser.setAdmin(checkAdmin(adminCode.toString()));
     }
 

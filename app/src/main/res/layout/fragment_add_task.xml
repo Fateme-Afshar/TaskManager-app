@@ -63,7 +63,7 @@
                     android:layout_marginLeft="@dimen/mrg_10"
                     android:layout_marginRight="@dimen/mrg_10"
                     android:hint="@string/hint_task_title"
-                    android:onTextChanged="@{viewModel::onTextTitleChanged}"
+                    android:afterTextChanged="@{viewModel::afterTextTitleChanged}"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -85,7 +85,7 @@
                     android:layout_marginLeft="@dimen/mrg_10"
                     android:layout_marginRight="@dimen/mrg_10"
                     android:hint="@string/hint_task_description"
-                    android:onTextChanged="@{viewModel::onTextDescriptionChanged}"
+                    android:afterTextChanged="@{viewModel::afterTextDescriptionChanged}"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 

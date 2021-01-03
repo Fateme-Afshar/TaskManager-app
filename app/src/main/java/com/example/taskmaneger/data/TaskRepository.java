@@ -2,6 +2,7 @@ package com.example.taskmaneger.data;
 
 import android.content.Context;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 
 import com.example.taskmaneger.data.room.TaskManagerDatabase;
@@ -20,12 +21,7 @@ public class TaskRepository implements IRepository<Task>{
 
     private TaskRepository(Context context) {
         mContext=context.getApplicationContext();
-        TaskManagerDatabase dataBase= Room.
-                databaseBuilder(mContext,TaskManagerDatabase.class,
-                        TaskManagerSchema.NAME).
-                allowMainThreadQueries().build();
-
-        mDAO=dataBase.getTaskDao();
+        mDAO=TaskManagerDatabase.getDatabase(mContext).getTaskDao();
     }
 
     public static TaskRepository getInstance(Context context) {
@@ -40,7 +36,7 @@ public class TaskRepository implements IRepository<Task>{
     }
 
 
-    public List<Task> getListWithUserId(long userId) {
+    public LiveData<List<Task>> getListWithUserId(long userId) {
         return mDAO.getListWithUserId(userId);
     }
 
@@ -51,20 +47,20 @@ public class TaskRepository implements IRepository<Task>{
 
     @Override
     public void delete(Task element) {
-        mDAO.delete(element);
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.delete(element));
     }
 
     @Override
     public void insert(Task element) {
-        mDAO.insert(element);
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.insert(element));
     }
 
     @Override
     public void update(Task element) {
-        mDAO.update(element);
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.update(element));
     }
 
-    public List<Task> getListWithState(String state,long userId){
+    public LiveData<List<Task>> getListWithState(String state, long userId){
         return mDAO.getListWithState(state,userId);
     }
 }

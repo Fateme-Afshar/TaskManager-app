@@ -1,5 +1,6 @@
 package com.example.taskmaneger.data.room;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -16,9 +17,9 @@ public interface TaskTableDAO {
     @Query(value = "SELECT * FROM taskTable")
     List<Task> getList();
     @Query(value = "SELECT * FROM taskTable WHERE userId=:userId")
-    List<Task> getListWithUserId(long userId);
+    LiveData<List<Task>> getListWithUserId(long userId);
     @Query(value = "SELECT * FROM taskTable WHERE state=:taskSate AND userId=:userId")
-    List<Task> getListWithState(String taskSate,long userId);
+    LiveData<List<Task>> getListWithState(String taskSate,long userId);
     @Query(value = "SELECT * FROM taskTable  WHERE id=:taskId")
     Task get(long taskId);
     @Delete

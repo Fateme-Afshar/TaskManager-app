@@ -1,6 +1,7 @@
 package com.example.taskmaneger.viewModel;
 
 import android.app.Application;
+import android.text.Editable;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,11 +23,11 @@ public class LoginViewModel extends AndroidViewModel {
         mRepository=UserRepository.getInstance(getApplication());
     }
 
-    public void onTextChangedUsername(CharSequence username, int i, int j, int k) {
+    public void afterTextChangedUsername(Editable username) {
         mUsername=username.toString();
     }
 
-    public void onTextChangedPassword(CharSequence password, int i, int j, int k) {
+    public void afterTextChangedPassword(Editable password) {
         mPass=password.toString();
     }
 

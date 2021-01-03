@@ -31,7 +31,7 @@
                 android:layout_height="match_parent"
                 android:padding="10dp"
                 android:textColor="@color/black"
-                android:onTextChanged="@{viewModel::onTextChangedUsername}"
+                android:afterTextChanged="@{viewModel::afterTextChangedUsername}"
                 android:layout_margin="@dimen/mrg_5"
                 />
         </com.google.android.material.textfield.TextInputLayout>
@@ -55,7 +55,7 @@
                 android:textColor="@color/black"
                 android:layout_margin="@dimen/mrg_5"
                 android:inputType="numberPassword"
-                android:onTextChanged="@{viewModel::onTextChangedPassword}"
+                android:afterTextChanged="@{viewModel::afterTextChangedPassword}"
                 />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -87,7 +87,7 @@
                 android:padding="10dp"
                 android:textColor="@color/black"
                 android:layout_margin="@dimen/mrg_5"
-                android:onTextChanged="@{viewModel::onTextChangedAdminCode}"
+                android:afterTextChanged="@{viewModel::afterTextChangedAdminCode}"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
