@@ -5,14 +5,18 @@ import android.app.Application;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
+import com.example.taskmaneger.R;
 import com.example.taskmaneger.data.TaskRepository;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.view.IOnClickListener;
+
+import java.text.DateFormat;
 
 public class BottomSheetViewModel extends AndroidViewModel {
     private TaskRepository mRepository;
@@ -21,6 +25,8 @@ public class BottomSheetViewModel extends AndroidViewModel {
 
     private LifecycleOwner mLifecycleOwner;
     private IOnClickListener mOnClickListener;
+
+    private BottomSheetFragmentViewModelCallback mCallback;
 
     public BottomSheetViewModel(@NonNull Application application) {
         super(application);
@@ -55,7 +61,26 @@ public class BottomSheetViewModel extends AndroidViewModel {
     }
 
     public void onShareBtnClickListener(){
-        mRepository.delete(mTask);
+        mCallback.onShareTask(getInfoTask());
         mOnClickListener.onButtonClickListener();
+    }
+
+    public interface BottomSheetFragmentViewModelCallback{
+        void onShareTask(String taskInfo);
+    }
+
+    public void setCallback(BottomSheetFragmentViewModelCallback callback) {
+        mCallback = callback;
+    }
+
+    private String getInfoTask(){
+        return getApplication().getString(R.string.all_task_info,
+                mTask.getTitle(),
+                mTask.getDescription(),
+                mTask.getTaskState().toString(),
+                DateFormat.getDateInstance(DateFormat.SHORT).
+                        format(mTask.getDate()),
+                DateFormat.getTimeInstance(DateFormat.SHORT).
+                        format(mTask.getTime()));
     }
 }

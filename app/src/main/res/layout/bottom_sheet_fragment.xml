@@ -34,7 +34,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/width_56"
             android:text="@string/share"
-            app:icon="@drawable/ic_share" />
+            app:icon="@drawable/ic_share"
+            android:onClick="@{()->viewModel.onShareBtnClickListener()}"
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/delete"

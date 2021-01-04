@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.core.app.ShareCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -53,6 +54,21 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements IO
             mViewModel.setLifecycleOwner(this);
             mViewModel.setTaskId(taskId);
             mViewModel.setOnClickListener(this);
+            mViewModel.setCallback(new BottomSheetViewModel.BottomSheetFragmentViewModelCallback() {
+                @Override
+                public void onShareTask(String taskInfo) {
+                    Intent intent= ShareCompat.IntentBuilder
+                            .from(getActivity()).
+                                    setChooserTitle("Choose one of App for share task information : ").
+                                    setSubject("Sharing Task Information").
+                                    setText(taskInfo).
+                                    setType("text/plain").
+                                    getIntent();
+
+                    if (intent.resolveActivity(getActivity().getPackageManager())!=null)
+                        startActivity(intent);
+                }
+            });
         }
     }
 
