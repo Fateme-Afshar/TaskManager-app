@@ -9,7 +9,6 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 
-import com.example.taskmaneger.R;
 import com.example.taskmaneger.data.UserRepository;
 import com.example.taskmaneger.model.User;
 import com.example.taskmaneger.utils.ProgramUtils;

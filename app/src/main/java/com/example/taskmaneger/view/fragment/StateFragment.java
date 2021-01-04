@@ -1,9 +1,12 @@
 package com.example.taskmaneger.view.fragment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -33,6 +36,7 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class StateFragment extends Fragment implements IOnClickListener {
+    public static final int REQUEST_CODE_BUTTON_SHEET_FRAGMENT =1;
     public static final String ARG_USER_ID = "User Id";
     public static final String ARG_TASK_STATE = "Task State";
     private StateFragmentCallback mCallback;
@@ -69,6 +73,17 @@ public class StateFragment extends Fragment implements IOnClickListener {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode!= Activity.RESULT_OK && data==null)
+            return;
+        if (requestCode==REQUEST_CODE_BUTTON_SHEET_FRAGMENT){
+            mBinding.notifyChange();
+        }
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -91,7 +106,6 @@ public class StateFragment extends Fragment implements IOnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.d(ProgramUtils.TAG,"onCreateView");
       mBinding= DataBindingUtil.inflate
               (inflater,
                       R.layout.fragment_state,
@@ -101,6 +115,8 @@ public class StateFragment extends Fragment implements IOnClickListener {
       return mBinding.getRoot();
     }
 
+
+
     private void setupAdapter(List<Task> taskList){
         mAdapter=new TasksAdapter(getActivity(),taskList);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -109,7 +125,7 @@ public class StateFragment extends Fragment implements IOnClickListener {
         mAdapter.setCallback(new TasksAdapter.TasksAdapterCallback() {
             @Override
             public void onMenuBtnSelectedListener(long taskId) {
-                mCallback.onMenuBtnSelectedListener(taskId);
+                mCallback.onMenuBtnSelectedListener(StateFragment.this,taskId,mTaskState);
             }
         });
 
@@ -126,6 +142,6 @@ public class StateFragment extends Fragment implements IOnClickListener {
 
     public interface StateFragmentCallback{
         void onAddBtnClickListener(long userId,String taskState);
-        void onMenuBtnSelectedListener(long taskId);
+        void onMenuBtnSelectedListener(Fragment fragment,long taskId,String taskState);
     }
 }

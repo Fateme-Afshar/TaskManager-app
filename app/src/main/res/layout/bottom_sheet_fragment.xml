@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.example.taskmaneger.viewModel.BottomSheetViewModel" />
     </data>
 
     <LinearLayout
@@ -40,7 +42,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/width_56"
             android:text="@string/delete"
-            app:icon="@drawable/ic_trashcan" />
+            app:icon="@drawable/ic_trashcan"
+            android:onClick="@{()->viewModel.onDeleteBtnClickListener()}"
+            />
 
     </LinearLayout>
 </layout>

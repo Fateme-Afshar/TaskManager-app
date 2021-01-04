@@ -2,16 +2,18 @@ package com.example.taskmaneger.view.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.taskmaneger.R;
-import com.example.taskmaneger.model.Task;
+import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.SingleFragmentActivity;
 import com.example.taskmaneger.view.fragment.AddTaskFragment;
 import com.example.taskmaneger.view.fragment.BottomSheetFragment;
 import com.example.taskmaneger.view.fragment.StateFragment;
 import com.example.taskmaneger.view.fragment.TaskManagerFragment;
+import com.example.taskmaneger.view.fragment.TimePickerFragment;
 
 public class TaskManagerActivity extends SingleFragmentActivity
         implements StateFragment.StateFragmentCallback ,
@@ -20,6 +22,7 @@ public class TaskManagerActivity extends SingleFragmentActivity
     public static final String EXTRA_USER_ID =
             "com.example.taskmaneger.User Id";
     public static final String STATE_FRAGMENT_TAG = "State Fragment";
+    private long mUserId;
 
     public static void start(Context context, long userId) {
         Intent starter = new Intent(context, TaskManagerActivity.class);
@@ -31,8 +34,8 @@ public class TaskManagerActivity extends SingleFragmentActivity
     @Override
     public Fragment getFragment() {
         Intent intent=getIntent();
-        long userId=intent.getLongExtra(EXTRA_USER_ID,0);
-        return TaskManagerFragment.newInstance(userId);
+        mUserId=intent.getLongExtra(EXTRA_USER_ID,0);
+        return TaskManagerFragment.newInstance(mUserId);
     }
 
     @Override
@@ -51,12 +54,21 @@ public class TaskManagerActivity extends SingleFragmentActivity
     }
 
     @Override
-    public void onMenuBtnSelectedListener(long taskId) {
-        BottomSheetFragment bottomSheetFrag =
+    public void onMenuBtnSelectedListener(Fragment fragment,long taskId,String taskState) {
+        BottomSheetFragment bottomSheetFragment=
                 BottomSheetFragment.newInstance(taskId);
 
-        String tag = " Fragment Bottom Sheet";
-        bottomSheetFrag.show(getSupportFragmentManager(), tag);
+        Log.d(ProgramUtils.TAG,
+                "TaskManagerActivity : " +
+                        "create parent-child relationship between AddTaskFragment and TimePickerFragment");
+        // create parent-child relationship between AddTaskFragment and TimePickerFragment
+        bottomSheetFragment.setTargetFragment(fragment,
+                StateFragment.
+                        REQUEST_CODE_BUTTON_SHEET_FRAGMENT);
+
+        bottomSheetFragment.show
+                (getSupportFragmentManager(),
+                        null);
     }
 
     @Override

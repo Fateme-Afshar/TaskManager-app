@@ -1,15 +1,22 @@
 package com.example.taskmaneger.view.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.databinding.BottomSheetFragmentBinding;
+import com.example.taskmaneger.utils.ProgramUtils;
+import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.BottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -18,9 +25,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
  * Use the {@link BottomSheetFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BottomSheetFragment extends BottomSheetDialogFragment {
+public class BottomSheetFragment extends BottomSheetDialogFragment implements IOnClickListener{
     public static final String ARG_TASK_ID = "Task Id";
+
     private BottomSheetViewModel mViewModel;
+
+    private BottomSheetFragmentBinding mBinding;
 
     public BottomSheetFragment() {
         // Required empty public constructor
@@ -40,8 +50,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
         mViewModel=new ViewModelProvider(this).get(BottomSheetViewModel.class);
         if (getArguments() != null) {
             long taskId=getArguments().getLong(ARG_TASK_ID);
-            mViewModel.setTaskId(taskId);
             mViewModel.setLifecycleOwner(this);
+            mViewModel.setTaskId(taskId);
+            mViewModel.setOnClickListener(this);
         }
     }
 
@@ -49,6 +60,21 @@ public class BottomSheetFragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.bottom_sheet_fragment, container, false);
+        mBinding= DataBindingUtil.inflate
+                (inflater,
+                        R.layout.bottom_sheet_fragment,
+                        container,
+                        false);
+        mBinding.setViewModel(mViewModel);
+        return mBinding.getRoot();
+    }
+
+    @Override
+    public void onButtonClickListener() {
+        Fragment targetFragment=this.getTargetFragment();
+        Intent data=new Intent();
+        Log.d(ProgramUtils.TAG,"BottomSheetFragment : Sending result for parent");
+        targetFragment.onActivityResult(this.getTargetRequestCode(), Activity.RESULT_OK,data);
+        dismiss();
     }
 }
