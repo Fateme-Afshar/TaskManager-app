@@ -25,7 +25,7 @@
             style="@style/BottomSheetTextStyle"
             android:layout_width="match_parent"
             android:layout_height="@dimen/width_56"
-            android:text="@string/edit"
+            android:text="@string/task_edit"
             app:icon="@drawable/ic_edit" />
 
         <com.google.android.material.button.MaterialButton

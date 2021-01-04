@@ -81,7 +81,7 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
             mCallback=(AddTaskFragmentCallback) context;
         else
             throw new ClassCastException
-                    ("Must Implement HandleOnClickListener interface");
+                    ("Must Implement AddTaskFragmentCallback interface");
     }
 
     @Override
@@ -119,12 +119,12 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode!= Activity.RESULT_OK && data==null)
             return;
-        if (requestCode== CommonPartAddAndUpdateTask.REQUEST_CODE_DATE_PICKER){
+        if (requestCode== AddTaskViewModel.REQUEST_CODE_DATE_PICKER){
             Date userSelectedDate= mViewModel.getUserSelectedDate(data);
             mViewModel.setTaskDate(userSelectedDate);
 
             mBinding.btnDate.setText(DateUtils.getShortDateFormat(userSelectedDate));
-        }else if (requestCode==CommonPartAddAndUpdateTask.REQUEST_CODE_TIME_PICKER){
+        }else if (requestCode==AddTaskViewModel.REQUEST_CODE_TIME_PICKER){
             Date userSelectedTime=mViewModel.getUserSelectedTime(data);
             mViewModel.setTaskTime(userSelectedTime);
 

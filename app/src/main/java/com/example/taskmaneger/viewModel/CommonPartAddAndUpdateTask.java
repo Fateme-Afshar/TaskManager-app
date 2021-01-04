@@ -113,21 +113,11 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
         return (Date) data.getSerializableExtra(DatePickerViewModel.EXTRA_USER_SELECTED_DATE);
     }
 
-    public void afterTextTitleChanged(Editable title) {
-        if (!title.toString().equals(""))
-            mTask.setTitle(title.toString());
-        else
-            mTask.setTitle("");
-    }
-
-    public void afterTextDescriptionChanged(Editable description) {
-        if (!description.toString().equals(""))
-            mTask.setDescription(description.toString());
-        else
-            mTask.setDescription("");
-    }
-
     public TaskRepository getRepository() {
         return mRepository;
     }
+
+    public abstract void setTaskDate(Date userSelectedDate);
+
+    public abstract void setTaskTime(Date userSelectedTime);
 }

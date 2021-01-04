@@ -126,6 +126,7 @@ public class Task implements Serializable {
         Glide.with(imageView.getContext()).
                 load(imgAddress).
                 placeholder(R.drawable.img_place_holder).
+                circleCrop().
                 into(imageView);
     }
 }

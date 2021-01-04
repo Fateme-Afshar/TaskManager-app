@@ -7,17 +7,21 @@ import android.util.Log;
 import androidx.fragment.app.Fragment;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.SingleFragmentActivity;
 import com.example.taskmaneger.view.fragment.AddTaskFragment;
 import com.example.taskmaneger.view.fragment.BottomSheetFragment;
+import com.example.taskmaneger.view.fragment.EditTaskFragment;
 import com.example.taskmaneger.view.fragment.StateFragment;
 import com.example.taskmaneger.view.fragment.TaskManagerFragment;
 import com.example.taskmaneger.view.fragment.TimePickerFragment;
 
 public class TaskManagerActivity extends SingleFragmentActivity
         implements StateFragment.StateFragmentCallback ,
-        AddTaskFragment.AddTaskFragmentCallback {
+        AddTaskFragment.AddTaskFragmentCallback,
+        EditTaskFragment.EditTaskFragmentCallback ,
+        BottomSheetFragment.BottomSheetFragmentCallback {
 
     public static final String EXTRA_USER_ID =
             "com.example.taskmaneger.User Id";
@@ -77,6 +81,26 @@ public class TaskManagerActivity extends SingleFragmentActivity
                 beginTransaction().
                 replace(R.id.fragment_container,
                         TaskManagerFragment.newInstance(userId)).
+                addToBackStack(STATE_FRAGMENT_TAG).
+                commit();
+    }
+
+    @Override
+    public void onEditBtnClickListener(long userId, String taskState) {
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.fragment_container,
+                        TaskManagerFragment.newInstance(userId)).
+                addToBackStack(STATE_FRAGMENT_TAG).
+                commit();
+    }
+
+    @Override
+    public void onEditClickListener(Task task) {
+        getSupportFragmentManager().
+                beginTransaction().
+                replace(R.id.fragment_container,
+                        EditTaskFragment.newInstance(task)).
                 addToBackStack(STATE_FRAGMENT_TAG).
                 commit();
     }

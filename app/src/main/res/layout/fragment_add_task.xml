@@ -132,10 +132,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="@string/task_save"
-                app:icon="@drawable/ic_save"
                 android:layout_marginRight="@dimen/mrg_10"
                 android:layout_marginTop="@dimen/mrg_10"
                 android:layout_marginBottom="20dp"
+                android:textAllCaps="false"
                 android:onClick="@{()->viewModel.onClickListener()}"
                 />
 

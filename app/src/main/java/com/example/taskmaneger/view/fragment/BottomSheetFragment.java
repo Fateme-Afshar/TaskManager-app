@@ -1,9 +1,11 @@
 package com.example.taskmaneger.view.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ShareCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 
 import com.example.taskmaneger.R;
 import com.example.taskmaneger.databinding.BottomSheetFragmentBinding;
+import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.BottomSheetViewModel;
@@ -33,6 +36,10 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements IO
 
     private BottomSheetFragmentBinding mBinding;
 
+    private BottomSheetFragmentCallback mCallback;
+
+    private long mTaskId;
+
     public BottomSheetFragment() {
         // Required empty public constructor
     }
@@ -46,13 +53,24 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements IO
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (context instanceof BottomSheetFragmentCallback)
+            mCallback=(BottomSheetFragmentCallback) context;
+        else
+            throw new ClassCastException
+                    ("Must Implement BottomSheetFragmentCallback interface");
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel=new ViewModelProvider(this).get(BottomSheetViewModel.class);
         if (getArguments() != null) {
-            long taskId=getArguments().getLong(ARG_TASK_ID);
+            mTaskId=getArguments().getLong(ARG_TASK_ID);
             mViewModel.setLifecycleOwner(this);
-            mViewModel.setTaskId(taskId);
+            mViewModel.setTaskId(mTaskId);
             mViewModel.setOnClickListener(this);
             mViewModel.setCallback(new BottomSheetViewModel.BottomSheetFragmentViewModelCallback() {
                 @Override
@@ -82,6 +100,16 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements IO
                         container,
                         false);
         mBinding.setViewModel(mViewModel);
+
+/*         I know this is anti pattern in MVVM architecture ,
+          but unfortunately i haven't any idea for manage this.*/
+        mBinding.edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mCallback.onEditClickListener(mViewModel.getTask());
+                dismiss();
+            }
+        });
         return mBinding.getRoot();
     }
 
@@ -92,5 +120,9 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements IO
         Log.d(ProgramUtils.TAG,"BottomSheetFragment : Sending result for parent");
         targetFragment.onActivityResult(this.getTargetRequestCode(), Activity.RESULT_OK,data);
         dismiss();
+    }
+
+    public interface BottomSheetFragmentCallback{
+        void onEditClickListener(Task task);
     }
 }

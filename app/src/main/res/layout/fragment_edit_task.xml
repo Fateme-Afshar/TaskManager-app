@@ -8,10 +8,10 @@
         <import type="com.example.taskmaneger.utils.DateUtils"/>
         <variable
             name="viewModel"
-            type="com.example.taskmaneger.viewModel.AddTaskViewModel" />
+            type="com.example.taskmaneger.viewModel.EditTaskViewModel" />
         <variable
             name="fragment"
-            type="com.example.taskmaneger.view.fragment.AddTaskFragment" />
+            type="com.example.taskmaneger.view.fragment.EditTaskFragment" />
     </data>
 
     <ScrollView
@@ -34,6 +34,7 @@
                 android:src="@drawable/img_task"
                 android:layout_marginTop="@dimen/mrg_10"
                 app:civ_border_width="1dp"
+                loadImage="@{viewModel.task.imgAddress}"
                 app:civ_border_color="#807F7F" />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -63,6 +64,7 @@
                     android:layout_marginLeft="@dimen/mrg_10"
                     android:layout_marginRight="@dimen/mrg_10"
                     android:hint="@string/hint_task_title"
+                    android:text="@{viewModel.task.title}"
                     android:afterTextChanged="@{viewModel::afterTextTitleChanged}"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -85,6 +87,7 @@
                     android:layout_marginLeft="@dimen/mrg_10"
                     android:layout_marginRight="@dimen/mrg_10"
                     android:hint="@string/hint_task_description"
+                    android:text="@{viewModel.task.description}"
                     android:afterTextChanged="@{viewModel::afterTextDescriptionChanged}"
                     />
             </com.google.android.material.textfield.TextInputLayout>
@@ -103,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/mrg_5"
                     android:layout_weight="1"
-                    android:text="@string/task_time"
+                    android:text="@{DateUtils.getShortTimeFormat(viewModel.task.time)}"
                     android:textAllCaps="false"
                     android:textSize="15sp"
                     app:icon="@drawable/ic_time"
@@ -117,7 +120,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/mrg_5"
                     android:layout_weight="1"
-                    android:text="@string/task_date"
+                    android:text="@{DateUtils.getShortDateFormat(viewModel.task.date)}"
                     android:textAllCaps="false"
                     android:textSize="15sp"
                     app:icon="@drawable/ic_date"
@@ -131,11 +134,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:text="@string/task_save"
-                app:icon="@drawable/ic_save"
+                android:text="@string/task_edit"
                 android:layout_marginRight="@dimen/mrg_10"
                 android:layout_marginTop="@dimen/mrg_10"
                 android:layout_marginBottom="20dp"
+                android:textAllCaps="false"
                 android:onClick="@{()->viewModel.onClickListener()}"
                 />
 

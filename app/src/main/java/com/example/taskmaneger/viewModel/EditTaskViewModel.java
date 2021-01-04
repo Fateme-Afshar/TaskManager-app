@@ -2,51 +2,24 @@ package com.example.taskmaneger.viewModel;
 
 import android.app.Application;
 import android.text.Editable;
-import android.util.Log;
 
 import com.example.taskmaneger.model.Task;
-import com.example.taskmaneger.model.TaskState;
-import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 
 import java.util.Date;
 
-public class AddTaskViewModel extends CommonPartAddAndUpdateTask {
-    private Task mTask = new Task();
-    private TaskState mTaskState;
-    private long mUserId;
-
+public class EditTaskViewModel extends CommonPartAddAndUpdateTask {
+    private Task mTask;
+    private long mTaskId;
     private IOnClickListener mOnClickListener;
 
-    public AddTaskViewModel(Application application) {
+    public EditTaskViewModel(Application application) {
         super(application);
-    }
-
-    public void setTaskState(TaskState taskState) {
-        mTaskState = taskState;
-    }
-
-    public void setUserId(long userId) {
-        mUserId = userId;
-    }
-
-    public void setOnClickListener(IOnClickListener onClickListener) {
-        mOnClickListener = onClickListener;
     }
 
     @Override
     public void onClickListener() {
-        if (getPhotoFile()!=null) {
-            mTask.setImgAddress(getPhotoFile().getAbsolutePath());
-        }
-        else{
-            mTask.setImgAddress("");
-        }
-
-        mTask.setTaskState(mTaskState);
-        mTask.setUserId(mUserId);
-        Log.d(ProgramUtils.TAG,"Add new task in database");
-        getRepository().insert(mTask);
+        getRepository().update(mTask);
         mOnClickListener.onButtonClickListener();
     }
 
@@ -63,6 +36,14 @@ public class AddTaskViewModel extends CommonPartAddAndUpdateTask {
     @Override
     public void setTaskTime(Date userSelectedTime) {
         mTask.setTime(userSelectedTime);
+    }
+
+    public void setOnClickListener(IOnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
+    public void setTask(Task task) {
+        mTask = task;
     }
 
     public void afterTextTitleChanged(Editable title) {
