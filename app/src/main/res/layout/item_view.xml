@@ -19,7 +19,9 @@
                 android:id="@+id/imv_task"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/img_task" />
+                android:src="@drawable/img_task"
+                loadImage="@{task.imgAddress}"
+                />
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextStyle"

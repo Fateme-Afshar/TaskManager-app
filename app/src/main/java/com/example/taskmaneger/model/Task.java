@@ -7,6 +7,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.bumptech.glide.Glide;
+import com.example.taskmaneger.R;
 import com.example.taskmaneger.data.TaskManagerSchema;
 import com.example.taskmaneger.data.TaskManagerSchema.Task.TaskColumns;
 
@@ -120,7 +122,10 @@ public class Task implements Serializable {
     }
 
     @BindingAdapter("loadImage")
-    public void loadImage(ImageView imageView,String imgAddress){
-
+    public static void loadImage(ImageView imageView,String imgAddress){
+        Glide.with(imageView.getContext()).
+                load(imgAddress).
+                placeholder(R.drawable.img_place_holder).
+                into(imageView);
     }
 }
