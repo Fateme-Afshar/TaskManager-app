@@ -6,8 +6,10 @@ import android.content.Intent;
 import androidx.fragment.app.Fragment;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.view.SingleFragmentActivity;
 import com.example.taskmaneger.view.fragment.AddTaskFragment;
+import com.example.taskmaneger.view.fragment.BottomSheetFragment;
 import com.example.taskmaneger.view.fragment.StateFragment;
 import com.example.taskmaneger.view.fragment.TaskManagerFragment;
 
@@ -46,6 +48,15 @@ public class TaskManagerActivity extends SingleFragmentActivity
                         AddTaskFragment.newInstance(userId,taskState)).
                 addToBackStack(STATE_FRAGMENT_TAG).
                 commit();
+    }
+
+    @Override
+    public void onMenuBtnSelectedListener(long taskId) {
+        BottomSheetFragment bottomSheetFrag =
+                BottomSheetFragment.newInstance(taskId);
+
+        String tag = " Fragment Bottom Sheet";
+        bottomSheetFrag.show(getSupportFragmentManager(), tag);
     }
 
     @Override

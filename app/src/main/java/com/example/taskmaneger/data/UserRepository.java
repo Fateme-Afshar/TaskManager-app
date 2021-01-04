@@ -19,12 +19,8 @@ public class UserRepository implements IRepository<User> {
 
     private UserRepository(Context context) {
         mContext = context.getApplicationContext();
-        TaskManagerDatabase database = Room.databaseBuilder
-                (mContext,
-                        TaskManagerDatabase.class,
-                        TaskManagerSchema.NAME).
-                allowMainThreadQueries().
-                build();
+        TaskManagerDatabase database =
+                TaskManagerDatabase.getDatabase(context);
 
         mDAO = database.getUserDao();
     }
@@ -36,42 +32,35 @@ public class UserRepository implements IRepository<User> {
     }
 
     @Override
-    public User get(long id) {
+    public LiveData<User> get(long id) {
         return mDAO.get(id);
     }
 
-    public User get(String username) {
+    public LiveData<User> get(String username) {
         return mDAO.get(username);
     }
 
     @Override
-    public List<User> getList() {
+    public LiveData<List<User>> getList() {
         return mDAO.getList();
     }
 
     @Override
     public void insert(User user) {
-        mDAO.insert(user);
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.insert(user));
     }
 
     @Override
     public void delete(User user) {
-        mDAO.delete(user);
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.delete(user));
     }
 
     @Override
     public void update(User user) {
-        mDAO.update(user);
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.update(user));
     }
 
     public LiveData<List<UserWithTask>> getUserWithTask(){
             return mDAO.getUserWithTask();
     }
-
-    public boolean checkExistUser(String username) {
-        if (mDAO.get(username) == null)
-            return false;
-        return true;
-    }
-
 }

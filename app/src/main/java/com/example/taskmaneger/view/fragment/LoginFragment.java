@@ -49,6 +49,7 @@ public class LoginFragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel=new ViewModelProvider(getActivity()).get(LoginViewModel.class);
+        mViewModel.setLifecycleOwner(this);
     }
 
     @Override

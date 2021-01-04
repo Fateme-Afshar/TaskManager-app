@@ -101,34 +101,17 @@ public class StateFragment extends Fragment implements IOnClickListener {
       return mBinding.getRoot();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.d(ProgramUtils.TAG,"onStop");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.d(ProgramUtils.TAG,"onPause");
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d(ProgramUtils.TAG,"onDestroy");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        Log.d(ProgramUtils.TAG,"onResume");
-    }
-
     private void setupAdapter(List<Task> taskList){
         mAdapter=new TasksAdapter(getActivity(),taskList);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBinding.recyclerView.setAdapter(mAdapter);
+
+        mAdapter.setCallback(new TasksAdapter.TasksAdapterCallback() {
+            @Override
+            public void onMenuBtnSelectedListener(long taskId) {
+                mCallback.onMenuBtnSelectedListener(taskId);
+            }
+        });
 
         if (taskList.size()==0)
             mBinding.imvEmpty.setVisibility(View.VISIBLE);
@@ -143,5 +126,6 @@ public class StateFragment extends Fragment implements IOnClickListener {
 
     public interface StateFragmentCallback{
         void onAddBtnClickListener(long userId,String taskState);
+        void onMenuBtnSelectedListener(long taskId);
     }
 }

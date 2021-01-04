@@ -47,6 +47,8 @@ public class SignUpFragment extends Fragment implements IOnClickListener {
         super.onCreate(savedInstanceState);
 
         mViewModel=new ViewModelProvider(getActivity()).get(SignUpViewModel.class);
+        mViewModel.setLifecycleOwner(this);
+        mViewModel.setOnSignBtnClickListener(this);
     }
 
     @Override
@@ -60,8 +62,6 @@ public class SignUpFragment extends Fragment implements IOnClickListener {
                 false);
 
         mBinding.setViewModel(mViewModel);
-        mViewModel.setOnSignBtnClickListener(this);
-
         return mBinding.getRoot();
     }
 

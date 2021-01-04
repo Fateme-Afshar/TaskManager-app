@@ -2,6 +2,7 @@ package com.example.taskmaneger.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -19,9 +20,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
     private Context mContext;
     private List<Task> mTaskList;
 
+    private TasksAdapterCallback mCallback;
+
     public TasksAdapter(Context context, List<Task> taskList) {
         mContext = context.getApplicationContext();
         mTaskList=taskList;
+    }
+
+    public void setCallback(TasksAdapterCallback callback) {
+        mCallback = callback;
     }
 
     @NonNull
@@ -45,7 +52,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
         return mTaskList.size();
     }
 
-    static class TaskHolder extends RecyclerView.ViewHolder {
+    class TaskHolder extends RecyclerView.ViewHolder {
         private ItemViewBinding mBinding;
         public TaskHolder(@NonNull ItemViewBinding itemViewBinding) {
             super(itemViewBinding.getRoot());
@@ -54,6 +61,17 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
 
         public void binding(Task task){
                 mBinding.setTask(task);
+
+                mBinding.btnMenu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mCallback.onMenuBtnSelectedListener(task.getId());
+                    }
+                });
         }
+    }
+
+    public interface TasksAdapterCallback{
+        void onMenuBtnSelectedListener(long taskId);
     }
 }

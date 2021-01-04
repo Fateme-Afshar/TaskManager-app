@@ -31,7 +31,7 @@ public class TaskRepository implements IRepository<Task>{
     }
 
     @Override
-    public List<Task> getList() {
+    public LiveData<List<Task>> getList() {
         return mDAO.getList();
     }
 
@@ -41,7 +41,7 @@ public class TaskRepository implements IRepository<Task>{
     }
 
     @Override
-    public Task get(long taskId) {
+    public LiveData<Task> get(long taskId) {
         return mDAO.get(taskId);
     }
 

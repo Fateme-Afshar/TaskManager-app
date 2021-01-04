@@ -19,11 +19,11 @@ import java.util.UUID;
 public interface UserTableDAO {
 
     @Query(value = "SELECT * FROM userTable")
-    List<User> getList();
+    LiveData<List<User>> getList();
     @Query(value = "SELECT * FROM userTable WHERE id=:id")
-    User get(long id);
+    LiveData<User> get(long id);
     @Query(value = "SELECT * FROM userTable WHERE username=:username")
-    User get(String username);
+    LiveData<User> get(String username);
 
     @Transaction
     @Query(value = "SELECT * FROM userTable")

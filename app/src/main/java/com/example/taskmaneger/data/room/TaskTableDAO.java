@@ -15,13 +15,13 @@ import java.util.UUID;
 @Dao
 public interface TaskTableDAO {
     @Query(value = "SELECT * FROM taskTable")
-    List<Task> getList();
+    LiveData<List<Task>> getList();
     @Query(value = "SELECT * FROM taskTable WHERE userId=:userId")
     LiveData<List<Task>> getListWithUserId(long userId);
     @Query(value = "SELECT * FROM taskTable WHERE state=:taskSate AND userId=:userId")
     LiveData<List<Task>> getListWithState(String taskSate,long userId);
     @Query(value = "SELECT * FROM taskTable  WHERE id=:taskId")
-    Task get(long taskId);
+    LiveData<Task> get(long taskId);
     @Delete
     void delete(Task element);
     @Insert

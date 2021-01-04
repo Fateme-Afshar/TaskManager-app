@@ -6,6 +6,8 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
 import com.example.taskmaneger.R;
 import com.example.taskmaneger.data.UserRepository;
@@ -18,6 +20,8 @@ public class SignUpViewModel extends AndroidViewModel {
     private UserRepository mRepository = UserRepository.getInstance(getApplication());
     private User mUser = new User();
     private IOnClickListener mOnSignBtnClickListener;
+
+    private LifecycleOwner mLifecycleOwner;
 
     public SignUpViewModel(@NonNull Application application) {
         super(application);
@@ -41,23 +45,27 @@ public class SignUpViewModel extends AndroidViewModel {
 
     public void onSignClickListener() {
         if (!mUser.getUsername().equals("") && !mUser.getPassword().equals("")) {
-            if (!checkUserExist(mUser.getUsername())) {
-                if (checkPassword(mUser.getPassword())) {
-                    Log.d(ProgramUtils.TAG, "New User insert in database");
-                    mRepository.insert(mUser);
+                    mRepository.get(mUser.getUsername()).observe(mLifecycleOwner, new Observer<User>() {
+                        @Override
+                        public void onChanged(User user) {
+                           if (user==null){
+                               if (checkPassword(mUser.getPassword())) {
+                                   Log.d(ProgramUtils.TAG, "New User insert in database");
+                                   mRepository.insert(mUser);
+                                   try {
+                                       mOnSignBtnClickListener.onButtonClickListener();
+                                   }catch (NullPointerException e){
+                                       Log.e(ProgramUtils.TAG," SignUpViewModel : "+e.toString());
+                                   }
 
-                    try {
-                            mOnSignBtnClickListener.onButtonClickListener();
-                    }catch (NullPointerException e){
-                        Log.e(ProgramUtils.TAG," SignUpViewModel : "+e.toString());
-                    }
-
-                    if (mUser.isAdmin()) {
-                        Log.d(ProgramUtils.TAG, "User is Admin");
-                        //TODO: check user is admin. if user is admin start Admin activity else start TaskManager activity.
-                    }
-                }
-            }
+                                   if (mUser.isAdmin()) {
+                                       Log.d(ProgramUtils.TAG, "User is Admin");
+                                       //TODO: check user is admin. if user is admin start Admin activity else start TaskManager activity.
+                                   }
+                               }
+                           }
+                        }
+                    });
         } else
             ViewUtils.returnToast(getApplication(), "Username or password cann't be null");
     }
@@ -71,17 +79,11 @@ public class SignUpViewModel extends AndroidViewModel {
         }
     }
 
-    public boolean checkUserExist(String username) {
-
-        if (!mRepository.checkExistUser(username))
-            return false;
-        else {
-            ViewUtils.returnToast(getApplication(), R.string.user_exist);
-            return true;
-        }
-    }
-
     public boolean checkAdmin(String adminCode) {
         return adminCode.equals("@utab");
+    }
+
+    public void setLifecycleOwner(LifecycleOwner lifecycleOwner) {
+        mLifecycleOwner = lifecycleOwner;
     }
 }

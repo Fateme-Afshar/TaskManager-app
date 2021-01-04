@@ -59,6 +59,7 @@ public class TaskManagerFragment extends Fragment {
 
         if (getArguments() != null) {
             mUserId=getArguments().getLong(ARGS_USER_ID);
+            mViewModel.setLifecycleOwner(this);
             mViewModel.setUserId(mUserId);
         }
     }
