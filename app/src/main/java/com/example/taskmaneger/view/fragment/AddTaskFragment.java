@@ -35,6 +35,7 @@ import com.example.taskmaneger.utils.PhotoUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.view.activity.MainActivity;
 import com.example.taskmaneger.viewModel.AddTaskViewModel;
+import com.example.taskmaneger.viewModel.CommonPartAddAndUpdateTask;
 
 import java.util.Date;
 
@@ -118,12 +119,12 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode!= Activity.RESULT_OK && data==null)
             return;
-        if (requestCode== AddTaskViewModel.REQUEST_CODE_DATE_PICKER){
+        if (requestCode== CommonPartAddAndUpdateTask.REQUEST_CODE_DATE_PICKER){
             Date userSelectedDate= mViewModel.getUserSelectedDate(data);
             mViewModel.setTaskDate(userSelectedDate);
 
             mBinding.btnDate.setText(DateUtils.getShortDateFormat(userSelectedDate));
-        }else if (requestCode==AddTaskViewModel.REQUEST_CODE_TIME_PICKER){
+        }else if (requestCode==CommonPartAddAndUpdateTask.REQUEST_CODE_TIME_PICKER){
             Date userSelectedTime=mViewModel.getUserSelectedTime(data);
             mViewModel.setTaskTime(userSelectedTime);
 

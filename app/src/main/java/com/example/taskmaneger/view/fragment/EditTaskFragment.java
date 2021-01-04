@@ -12,17 +12,17 @@ import com.example.taskmaneger.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EditFragment#newInstance} factory method to
+ * Use the {@link EditTaskFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EditFragment extends Fragment {
+public class EditTaskFragment extends Fragment {
 
-    public EditFragment() {
+    public EditTaskFragment() {
         // Required empty public constructor
     }
 
-    public static EditFragment newInstance() {
-        EditFragment fragment = new EditFragment();
+    public static EditTaskFragment newInstance() {
+        EditTaskFragment fragment = new EditTaskFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -37,6 +37,6 @@ public class EditFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit, container, false);
+        return inflater.inflate(R.layout.fragment_edit_task, container, false);
     }
 }
