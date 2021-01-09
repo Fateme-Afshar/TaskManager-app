@@ -20,6 +20,7 @@ public class LoginViewModel extends AndroidViewModel {
     private String mPass;
 
     private LifecycleOwner mLifecycleOwner;
+    private LoginViewModelCallback mCallback;
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
@@ -47,7 +48,11 @@ public class LoginViewModel extends AndroidViewModel {
                         @Override
                         public void onChanged(User user) {
                             if (mPass.equals(user.getPassword())) {
-                                TaskManagerActivity.start(getApplication(), user.getId());
+                                if (!user.isAdmin()) {
+                                    mCallback.startTaskManagerActivity(user.getId());
+                                }else {
+                                    mCallback.startAdminActivity();
+                                }
                             } else
                                 ViewUtils.returnToast(getApplication(), R.string.invalid_information);
                         }
@@ -56,5 +61,18 @@ public class LoginViewModel extends AndroidViewModel {
                     ViewUtils.returnToast(getApplication(), R.string.user_dont_exist);
             }
         });
+    }
+
+    public LoginViewModelCallback getCallback() {
+        return mCallback;
+    }
+
+    public void setCallback(LoginViewModelCallback callback) {
+        mCallback = callback;
+    }
+
+    public interface LoginViewModelCallback{
+        void startAdminActivity();
+        void startTaskManagerActivity(long userId);
     }
 }

@@ -50,6 +50,17 @@ public class LoginFragment extends Fragment
         super.onCreate(savedInstanceState);
         mViewModel=new ViewModelProvider(getActivity()).get(LoginViewModel.class);
         mViewModel.setLifecycleOwner(this);
+        mViewModel.setCallback(new LoginViewModel.LoginViewModelCallback() {
+            @Override
+            public void startAdminActivity() {
+                mCallback.startAdminActivity();
+            }
+
+            @Override
+            public void startTaskManagerActivity(long userId) {
+                mCallback.startTaskManagerActivity(userId);
+            }
+        });
     }
 
     @Override
@@ -75,7 +86,9 @@ public class LoginFragment extends Fragment
         mCallback.onSignBtnClick();
     }
 
-    public   interface LoginFragmentCallback{
+    public  interface LoginFragmentCallback{
         void onSignBtnClick();
+        void startAdminActivity();
+        void startTaskManagerActivity(long userId);
     }
 }

@@ -49,6 +49,16 @@ public class MainActivity extends SingleFragmentActivity
     }
 
     @Override
+    public void startAdminActivity() {
+        AdminActivity.start(this);
+    }
+
+    @Override
+    public void startTaskManagerActivity(long userId) {
+        TaskManagerActivity.start(this,userId);
+    }
+
+    @Override
     public void onSignUpClick() {
 
         getSupportFragmentManager().
