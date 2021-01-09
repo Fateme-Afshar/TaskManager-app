@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -14,17 +16,20 @@ import com.example.taskmaneger.databinding.ItemViewBinding;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.viewModel.StateViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> {
+public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> implements Filterable {
     private Context mContext;
     private List<Task> mTaskList;
+    private List<Task> mSearchTask;
 
     private TasksAdapterCallback mCallback;
 
     public TasksAdapter(Context context, List<Task> taskList) {
         mContext = context.getApplicationContext();
         mTaskList=taskList;
+        mSearchTask=new ArrayList<>(taskList);
     }
 
     public void setCallback(TasksAdapterCallback callback) {
@@ -51,6 +56,44 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
     public int getItemCount() {
         return mTaskList.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return mFilter;
+    }
+
+    private Filter mFilter=new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Task> filterTaskList=new ArrayList<>();
+            if (constraint==null || constraint.length()==0){
+                filterTaskList.addAll(mSearchTask);
+            }else {
+                String filterPattern=constraint.toString().toLowerCase().trim();
+
+                for (Task task : mSearchTask) {
+                    if (task.getTitle().toLowerCase().
+                            contains(filterPattern) ||
+                            task.getTitle().toLowerCase().
+                                    contains(filterPattern)){
+                        filterTaskList.add(task);
+                    }
+                }
+            }
+
+            FilterResults results=new FilterResults();
+            results.values=filterTaskList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            mTaskList.clear();
+            mTaskList.addAll((List)results.values);
+            notifyDataSetChanged();
+        }
+    };
 
     class TaskHolder extends RecyclerView.ViewHolder {
         private ItemViewBinding mBinding;

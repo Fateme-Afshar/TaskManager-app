@@ -4,6 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,18 +20,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.example.taskmaneger.R;
 import com.example.taskmaneger.adapter.TasksAdapter;
-import com.example.taskmaneger.data.UserWithTask;
 import com.example.taskmaneger.databinding.FragmentStateBinding;
 import com.example.taskmaneger.model.Task;
-import com.example.taskmaneger.model.TaskState;
-import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.StateViewModel;
 
@@ -40,6 +39,7 @@ public class StateFragment extends Fragment implements IOnClickListener {
     public static final String ARG_USER_ID = "User Id";
     public static final String ARG_TASK_STATE = "Task State";
     private StateFragmentCallback mCallback;
+
     private long mUserId;
     private String mTaskState;
 
@@ -100,32 +100,60 @@ public class StateFragment extends Fragment implements IOnClickListener {
             }
         });
         mViewModel.setOnClickListener(this);
+        setHasOptionsMenu(true);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-      mBinding= DataBindingUtil.inflate
-              (inflater,
-                      R.layout.fragment_state,
-                      container,
-                      false);
+        mBinding = DataBindingUtil.inflate
+                (inflater,
+                        R.layout.fragment_state,
+                        container,
+                        false);
         mBinding.setViewModel(mViewModel);
-      return mBinding.getRoot();
+        return mBinding.getRoot();
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu, menu);
 
+        MenuItem searchItem = menu.findItem(R.id.search);
 
-    private void setupAdapter(List<Task> taskList){
-        mAdapter=new TasksAdapter(getActivity(),taskList);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                if (mAdapter != null)
+                    mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setupAdapter(List<Task> taskList) {
+        mAdapter = new TasksAdapter(getActivity(), taskList);
         mBinding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBinding.recyclerView.setAdapter(mAdapter);
 
         mAdapter.setCallback(new TasksAdapter.TasksAdapterCallback() {
             @Override
             public void onMenuBtnSelectedListener(long taskId) {
-                mCallback.onMenuBtnSelectedListener(StateFragment.this,taskId,mTaskState);
+                mCallback.onMenuBtnSelectedListener(StateFragment.this, taskId, mTaskState);
             }
         });
 
