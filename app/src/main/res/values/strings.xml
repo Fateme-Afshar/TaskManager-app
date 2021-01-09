@@ -32,4 +32,7 @@
         Date: %4$s
         Time: %5$s
     </string>
+    <string name="menu_text_logout">Log Out</string>
+    <string name="menu_text_delete_all">Delete All</string>
+    <string name="menu_text_search">Search</string>
 </resources>

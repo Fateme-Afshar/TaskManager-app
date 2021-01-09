@@ -60,6 +60,10 @@ public class TaskRepository implements IRepository<Task>{
         TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.update(element));
     }
 
+    public void deleteAll(long userId){
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.deleteAll(userId));
+    }
+
     public LiveData<List<Task>> getListWithState(String state, long userId){
         return mDAO.getListWithState(state,userId);
     }

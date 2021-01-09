@@ -21,7 +21,7 @@ public abstract class TaskManagerDatabase extends RoomDatabase {
     public abstract UserTableDAO getUserDao();
     public abstract TaskTableDAO getTaskDao();
 
-    public static final int NUMBER_OF_THREADS = 3;
+    public static final int NUMBER_OF_THREADS = 4;
     public static ExecutorService databaseWriteExecutor=
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 

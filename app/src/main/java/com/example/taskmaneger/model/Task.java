@@ -1,6 +1,7 @@
 package com.example.taskmaneger.model;
 
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 import androidx.room.ColumnInfo;
@@ -128,5 +129,15 @@ public class Task implements Serializable {
                 placeholder(R.drawable.img_place_holder).
                 circleCrop().
                 into(imageView);
+    }
+
+    @BindingAdapter("normalText")
+    public static void getNormalText(TextView textView,String text){
+        if (text!=null){
+            if (text.length()>15)
+                textView.setText(text.substring(0,21)+"...");
+            else
+                textView.setText(text);
+        }
     }
 }

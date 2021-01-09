@@ -120,7 +120,7 @@ public class StateFragment extends Fragment implements IOnClickListener {
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.menu, menu);
 
-        MenuItem searchItem = menu.findItem(R.id.search);
+        MenuItem searchItem = menu.findItem(R.id.menu_search);
 
         SearchView searchView = (SearchView) searchItem.getActionView();
 
@@ -142,7 +142,16 @@ public class StateFragment extends Fragment implements IOnClickListener {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        switch (item.getItemId()){
+            case R.id.menu_logout:
+               mCallback.onLogoutMenuItemClickListener();
+                return true;
+            case R.id.menu_delete:
+                mViewModel.deleteAllTask(mUserId);
+                return true;
+            default:
+                return false;
+        }
     }
 
     private void setupAdapter(List<Task> taskList) {
@@ -171,5 +180,6 @@ public class StateFragment extends Fragment implements IOnClickListener {
     public interface StateFragmentCallback{
         void onAddBtnClickListener(long userId,String taskState);
         void onMenuBtnSelectedListener(Fragment fragment,long taskId,String taskState);
+        void onLogoutMenuItemClickListener();
     }
 }

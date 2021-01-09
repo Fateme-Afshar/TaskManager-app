@@ -24,6 +24,10 @@ public interface TaskTableDAO {
     LiveData<Task> get(long taskId);
     @Delete
     void delete(Task element);
+
+    @Query(value = "DELETE FROM taskTable WHERE userId=:userId")
+    void deleteAll(long userId);
+
     @Insert
     void insert(Task element);
     @Update

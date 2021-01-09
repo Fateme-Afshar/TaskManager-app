@@ -31,7 +31,7 @@
             android:layout_toEndOf="@+id/imv_task"
             android:layout_toRightOf="@+id/imv_task"
             tools:text="@string/task_title"
-            android:text="@{task.title}"
+            normalText="@{task.title}"
             android:layout_marginLeft="@dimen/mrg_5"
             android:textColor="@color/indigo" />
 
@@ -39,7 +39,9 @@
             android:id="@+id/btn_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/content"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="-64dp"
             android:background="#00FFFFFF"
             android:src="@drawable/ic_menu" />
 
@@ -52,7 +54,8 @@
             android:layout_toRightOf="@+id/imv_task"
             android:layout_below="@+id/task_title"
             android:layout_marginLeft="@dimen/mrg_5"
-            android:text="@{task.description}"
+            android:textSize="15sp"
+            normalText="@{task.description}"
             tools:text="this is my task" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -61,19 +64,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/task_title"
+            android:layout_below="@+id/content"
             android:text="@{DateUtils.getShortDateFormat(task.date)}"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/task_time"
             style="@style/TextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@+id/task_date"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/task_date"
+            android:layout_marginBottom="@dimen/mrg_5"
             android:text="@{DateUtils.getShortTimeFormat(task.time)}"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
         <View
             android:layout_width="wrap_content"

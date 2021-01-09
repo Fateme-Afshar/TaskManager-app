@@ -47,4 +47,8 @@ public class StateViewModel extends AndroidViewModel {
     public LiveData<List<Task>> getTaskListWithState( String taskSate,long userId){
         return mTaskRepository.getListWithState(taskSate,userId);
     }
+
+    public void deleteAllTask(long userId){
+        mTaskRepository.deleteAll(userId);
+    }
 }

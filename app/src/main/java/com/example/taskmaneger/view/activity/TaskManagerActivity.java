@@ -76,6 +76,12 @@ public class TaskManagerActivity extends SingleFragmentActivity
     }
 
     @Override
+    public void onLogoutMenuItemClickListener() {
+        finish();
+        MainActivity.start(this);
+    }
+
+    @Override
     public void onSaveBtnClickListener(long userId,String taskState) {
         getSupportFragmentManager().
                 beginTransaction().
