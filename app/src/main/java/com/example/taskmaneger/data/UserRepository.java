@@ -55,6 +55,10 @@ public class UserRepository implements IRepository<User> {
         TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.delete(user));
     }
 
+    public void deleteAll() {
+        TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.deleteAll());
+    }
+
     @Override
     public void update(User user) {
         TaskManagerDatabase.databaseWriteExecutor.execute(()->mDAO.update(user));

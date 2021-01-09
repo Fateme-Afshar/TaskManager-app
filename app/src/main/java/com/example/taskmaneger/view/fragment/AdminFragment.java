@@ -3,8 +3,12 @@ package com.example.taskmaneger.view.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -84,6 +88,26 @@ public class AdminFragment extends Fragment {
         return mBinding.getRoot();
     }
 
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_admin, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_admin_logout:
+                mCallback.onLogoutMenuItemClickListener();
+                return true;
+            case R.id.menu_admin_delete:
+                mViewModel.deleteAll();
+                mBinding.notifyChange();
+                return true;
+            default:
+                return false;
+        }
+    }
+
     private void setupAdapter(List<User> userList) {
         mAdapter=new AdminAdapter(userList, getContext(), new AdminAdapter.AdminAdapterCallback() {
             @Override
@@ -104,5 +128,6 @@ public class AdminFragment extends Fragment {
 
     public interface AdminFragmentCallback{
         void onItemUserSelected(long userId);
+        void onLogoutMenuItemClickListener();
     }
 }

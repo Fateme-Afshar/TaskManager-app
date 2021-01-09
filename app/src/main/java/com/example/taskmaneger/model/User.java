@@ -24,7 +24,7 @@ public class User {
     private Date mMembershipDate;
 
     public User() {
-
+        mMembershipDate=new Date();
     }
 
     public User(String username, String password, boolean isAdmin, Date membershipDate) {

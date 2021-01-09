@@ -26,4 +26,8 @@ public class AdminViewModel extends AndroidViewModel {
     public void deleteUser(User user){
         mUserRepository.delete(user);
     }
+
+    public void deleteAll(){
+        mUserRepository.deleteAll();
+    }
 }

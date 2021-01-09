@@ -8,7 +8,8 @@ import androidx.fragment.app.Fragment;
 import com.example.taskmaneger.view.SingleFragmentActivity;
 import com.example.taskmaneger.view.fragment.AdminFragment;
 
-public class AdminActivity extends SingleFragmentActivity implements AdminFragment.AdminFragmentCallback {
+public class AdminActivity extends SingleFragmentActivity
+        implements AdminFragment.AdminFragmentCallback {
 
     public static void start(Context context) {
         Intent starter = new Intent(context, AdminActivity.class);
@@ -23,5 +24,10 @@ public class AdminActivity extends SingleFragmentActivity implements AdminFragme
     @Override
     public void onItemUserSelected(long userId) {
         TaskManagerActivity.start(this,userId);
+    }
+
+    @Override
+    public void onLogoutMenuItemClickListener() {
+        finish();
     }
 }

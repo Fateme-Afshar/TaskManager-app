@@ -31,6 +31,10 @@ public interface UserTableDAO {
 
     @Delete
     void delete(User user);
+
+    @Query(value = "DELETE FROM userTable")
+    void deleteAll();
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(User user);
     @Update
