@@ -83,6 +83,7 @@ public class EditTaskFragment extends Fragment implements IOnClickListener {
                 R.layout.fragment_edit_task,
                 container,
                 false);
+        mBinding.setFragment(this);
         mBinding.setViewModel(mViewModel);
         return mBinding.getRoot();
     }

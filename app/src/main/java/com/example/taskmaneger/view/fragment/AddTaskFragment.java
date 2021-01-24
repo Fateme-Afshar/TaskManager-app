@@ -2,7 +2,6 @@ package com.example.taskmaneger.view.fragment;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -14,18 +13,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.example.taskmaneger.R;
 import com.example.taskmaneger.databinding.FragmentAddTaskBinding;
@@ -33,9 +27,7 @@ import com.example.taskmaneger.model.TaskState;
 import com.example.taskmaneger.utils.DateUtils;
 import com.example.taskmaneger.utils.PhotoUtils;
 import com.example.taskmaneger.view.IOnClickListener;
-import com.example.taskmaneger.view.activity.MainActivity;
 import com.example.taskmaneger.viewModel.AddTaskViewModel;
-import com.example.taskmaneger.viewModel.CommonPartAddAndUpdateTask;
 
 import java.util.Date;
 
@@ -55,7 +47,7 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
     private TaskState mTaskState;
 
     public String[] PERMISSION={"android.permission.CAMERA"};
-    public int REQUEST_PERMISSION_EXTERNAL=526;
+    public int REQUEST_PERMISSION_CAMERA =526;
 
     private AddTaskViewModel mViewModel;
     private AddTaskFragmentCallback mCallback;
@@ -111,6 +103,20 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
         mBinding.setFragment(this);
         mBinding.setViewModel(mViewModel);
         mViewModel.setOnClickListener(this);
+
+        mBinding.btnCamera.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
+                        ==PackageManager.PERMISSION_GRANTED){
+                    mViewModel.onCameraClickListener(AddTaskFragment.this);
+                }else {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA},
+                            REQUEST_PERMISSION_CAMERA);
+                }
+            }
+        });
         return mBinding.getRoot();
     }
 
@@ -155,27 +161,10 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (arePermissionAgree()) {
-
-                ActivityCompat
-                        .requestPermissions(
-                                getActivity(),
-                               PERMISSION,
-                                requestCode);
-
-            }else {
-                Toast.makeText(getActivity(),"Sorry cann't use this feature",Toast.LENGTH_LONG).show();
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    public boolean arePermissionAgree() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED)
-            return true;
-        return false;
+        if (grantResults[0]==PackageManager.PERMISSION_DENIED)
+            return;
+        else
+            mViewModel.onCameraClickListener(this);
     }
 
     @Override

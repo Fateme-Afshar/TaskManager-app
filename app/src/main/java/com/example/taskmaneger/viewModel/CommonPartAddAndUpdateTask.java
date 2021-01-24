@@ -42,6 +42,7 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
     public abstract void onClickListener();
 
     public void onDatePickerClickListener(Fragment fragment) {
+        mTask=new Task();
         DatePickerFragment datePickerFragment =
                 DatePickerFragment.newInstance(mTask.getDate());
 
@@ -54,6 +55,7 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
     }
 
     public void onTimePickerClickListener(Fragment fragment){
+        mTask=new Task();
         TimePickerFragment timePickerFragment=
                 TimePickerFragment.newInstance(mTask.getDate());
 
