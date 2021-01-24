@@ -21,13 +21,13 @@
     <string name="task_edit">Edit</string>
     <string name="share">Share</string>
     <string name="delete">Delete</string>
-    <string name="date_picker_title">Date Of Crime</string>
-    <string name="time_picker_title">Time Of Crime</string>
+    <string name="date_picker_title">Date Of Task</string>
+    <string name="time_picker_title">Time Of Task</string>
     <string name="btn_cancel">Cancel</string>
 
     <string name="all_task_info">
         Title: %1$s
-        Content: %2$s
+        Description: %2$s
         State: %3$s
         Date: %4$s
         Time: %5$s

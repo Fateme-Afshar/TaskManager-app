@@ -74,7 +74,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.TaskHolder> 
                 for (Task task : mSearchTask) {
                     if (task.getTitle().toLowerCase().
                             contains(filterPattern) ||
-                            task.getTitle().toLowerCase().
+                            task.getDescription().toLowerCase().
                                     contains(filterPattern)){
                         filterTaskList.add(task);
                     }
