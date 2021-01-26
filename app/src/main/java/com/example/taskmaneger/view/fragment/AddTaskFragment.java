@@ -13,22 +13,29 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taskmaneger.R;
 import com.example.taskmaneger.databinding.FragmentAddTaskBinding;
+import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.model.TaskState;
 import com.example.taskmaneger.utils.DateUtils;
 import com.example.taskmaneger.utils.PhotoUtils;
+import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.AddTaskViewModel;
+import com.example.taskmaneger.viewModel.CommonPartAddAndUpdateTask;
 
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -87,8 +94,7 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
         mTaskState=TaskState.valueOf(taskState);
 
         mViewModel=new ViewModelProvider(this).get(AddTaskViewModel.class);
-        mViewModel.setTaskState(mTaskState);
-        mViewModel.setUserId(mUserId);
+        setupViewModel();
     }
 
     @Override
@@ -110,7 +116,7 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
             public void onClick(View v) {
                 if (getActivity().checkSelfPermission(Manifest.permission.CAMERA)
                         ==PackageManager.PERMISSION_GRANTED){
-                    mViewModel.onCameraClickListener(AddTaskFragment.this);
+                    mViewModel.onCameraClickListener();
                 }else {
                     requestPermissions(new String[]{Manifest.permission.CAMERA},
                             REQUEST_PERMISSION_CAMERA);
@@ -164,12 +170,68 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
         if (grantResults[0]==PackageManager.PERMISSION_DENIED)
             return;
         else
-            mViewModel.onCameraClickListener(this);
+            mViewModel.onCameraClickListener();
     }
 
     @Override
     public void onButtonClickListener() {
         mCallback.onSaveBtnClickListener(mUserId,mTaskState.toString());
+    }
+
+    private void setupViewModel() {
+        mViewModel.setTaskState(mTaskState);
+        mViewModel.setUserId(mUserId);
+        mViewModel.setCallback(new CommonPartAddAndUpdateTask.CommonPartCallback() {
+            @Override
+            public void onCameraClickListener() {
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePicture.resolveActivity(getActivity().getPackageManager()) != null) {
+                    mViewModel.setPhotoFile(null);
+                    try {
+                        mViewModel.setPhotoFile(mViewModel.createImageFile());
+                    } catch (IOException e) {
+                        Log.e(ProgramUtils.TAG,
+                                "Taking photo part: Error occurred while creating the File : " + e.getMessage());
+                    }
+                }
+                if (mViewModel.getPhotoFile() != null) {
+                    Uri photoUri = FileProvider.getUriForFile(getActivity(),
+                            mViewModel.AUTHORITY, mViewModel.getPhotoFile());
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    AddTaskFragment.this.startActivityForResult(takePicture,
+                            mViewModel.REQUEST_CODE_TAKE_PICTURE);
+                }
+            }
+
+            @Override
+            public void onTimePickerClickListener() {
+                TimePickerFragment timePickerFragment=
+                        TimePickerFragment.newInstance(mViewModel.getTask().getDate());
+
+                // create parent-child relationship between AddTaskFragment and TimePickerFragment
+                timePickerFragment.setTargetFragment(AddTaskFragment.this,
+                        mViewModel.REQUEST_CODE_TIME_PICKER);
+
+                timePickerFragment.show
+                        (AddTaskFragment.this.getParentFragmentManager(),
+                                AddTaskFragment.TAG_ADD_TASK_FRAGMENT);
+            }
+
+            @Override
+            public void onDatePickerClickListener() {
+                mViewModel.setTaskTime(new Date());
+                DatePickerFragment datePickerFragment =
+                        DatePickerFragment.newInstance(mViewModel.getTask().getDate());
+
+                // create parent-child relationship between AddTaskFragment and DatePickerFragment
+                datePickerFragment.setTargetFragment(AddTaskFragment.this,
+                        mViewModel.REQUEST_CODE_DATE_PICKER);
+
+                datePickerFragment.show
+                        (AddTaskFragment.this.getParentFragmentManager(),
+                                AddTaskFragment.TAG_ADD_TASK_FRAGMENT);
+            }
+        });
     }
 
     public interface AddTaskFragmentCallback{

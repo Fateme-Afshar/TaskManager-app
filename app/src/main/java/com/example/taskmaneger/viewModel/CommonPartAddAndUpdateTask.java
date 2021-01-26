@@ -33,6 +33,8 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
     private Task mTask;
     private TaskRepository mRepository;
 
+    private CommonPartCallback mCallback;
+
     public CommonPartAddAndUpdateTask(Application application) {
         super(application);
         mRepository=TaskRepository.getInstance(application);
@@ -41,52 +43,19 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
 
     public abstract void onClickListener();
 
-    public void onDatePickerClickListener(Fragment fragment) {
-        mTask=new Task();
-        DatePickerFragment datePickerFragment =
-                DatePickerFragment.newInstance(mTask.getDate());
-
-        // create parent-child relationship between AddTaskFragment and DatePickerFragment
-        datePickerFragment.setTargetFragment(fragment, REQUEST_CODE_DATE_PICKER);
-
-        datePickerFragment.show
-                (fragment.getParentFragmentManager(),
-                        AddTaskFragment.TAG_ADD_TASK_FRAGMENT);
+    public void onDatePickerClickListener() {
+        mCallback.onDatePickerClickListener();
     }
 
-    public void onTimePickerClickListener(Fragment fragment){
-        mTask=new Task();
-        TimePickerFragment timePickerFragment=
-                TimePickerFragment.newInstance(mTask.getDate());
-
-        // create parent-child relationship between AddTaskFragment and TimePickerFragment
-        timePickerFragment.setTargetFragment(fragment, REQUEST_CODE_TIME_PICKER);
-
-        timePickerFragment.show
-                (fragment.getParentFragmentManager(),
-                        AddTaskFragment.TAG_ADD_TASK_FRAGMENT);
+    public void onTimePickerClickListener(){
+        mCallback.onTimePickerClickListener();
     }
 
-    public void onCameraClickListener(Fragment fragment) {
-        Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePicture.resolveActivity(getApplication().getPackageManager()) != null) {
-            mPhotoFile = null;
-            try {
-                mPhotoFile = createImageFile();
-            } catch (IOException e) {
-                Log.e(ProgramUtils.TAG,
-                        "Taking photo part: Error occurred while creating the File : " + e.getMessage());
-            }
-        }
-        if (mPhotoFile != null) {
-            Uri photoUri = FileProvider.getUriForFile(getApplication(),
-                    AUTHORITY, mPhotoFile);
-            takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            fragment.startActivityForResult(takePicture, REQUEST_CODE_TAKE_PICTURE);
-        }
+    public void onCameraClickListener() {
+        mCallback.onCameraClickListener();
     }
 
-    private File createImageFile() throws IOException {
+    public File createImageFile() throws IOException {
         String timeStamp =
                 new SimpleDateFormat("yyyyMMdd_HHmmss").
                         format(new Date());
@@ -122,4 +91,18 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
     public abstract void setTaskDate(Date userSelectedDate);
 
     public abstract void setTaskTime(Date userSelectedTime);
+
+    public void setCallback(CommonPartCallback callback) {
+        mCallback = callback;
+    }
+
+    public void setPhotoFile(File photoFile) {
+        mPhotoFile = photoFile;
+    }
+
+    public interface CommonPartCallback{
+       void onCameraClickListener();
+       void onTimePickerClickListener();
+       void onDatePickerClickListener();
+    }
 }

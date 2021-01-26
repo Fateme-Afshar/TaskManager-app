@@ -43,7 +43,7 @@
                 android:layout_height="40dp"
                 android:src="@drawable/ic_camera"
                 android:backgroundTint="#f1f1f1"
-                android:onClick="@{()->viewModel.onCameraClickListener(fragment)}"
+                android:onClick="@{()->viewModel.onCameraClickListener()}"
                 />
 
             <com.google.android.material.textview.MaterialTextView
@@ -110,7 +110,7 @@
                     android:textAllCaps="false"
                     android:textSize="15sp"
                     app:icon="@drawable/ic_time"
-                    android:onClick="@{()->viewModel.onTimePickerClickListener(fragment)}"
+                    android:onClick="@{()->viewModel.onTimePickerClickListener()}"
                     />
 
                 <com.google.android.material.button.MaterialButton
@@ -124,7 +124,7 @@
                     android:textAllCaps="false"
                     android:textSize="15sp"
                     app:icon="@drawable/ic_date"
-                    android:onClick="@{()->viewModel.onDatePickerClickListener(fragment)}"
+                    android:onClick="@{()->viewModel.onDatePickerClickListener()}"
                     />
             </LinearLayout>
 

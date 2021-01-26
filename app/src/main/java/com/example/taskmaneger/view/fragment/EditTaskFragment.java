@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.FileProvider;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -22,10 +25,13 @@ import com.example.taskmaneger.databinding.FragmentEditTaskBinding;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.utils.DateUtils;
 import com.example.taskmaneger.utils.PhotoUtils;
+import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.AddTaskViewModel;
+import com.example.taskmaneger.viewModel.CommonPartAddAndUpdateTask;
 import com.example.taskmaneger.viewModel.EditTaskViewModel;
 
+import java.io.IOException;
 import java.util.Date;
 
 /**
@@ -67,7 +73,7 @@ public class EditTaskFragment extends Fragment implements IOnClickListener {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(EditTaskViewModel.class);
-        mViewModel.setOnClickListener(this);
+        setupViewModel();
 
         if (getArguments() != null) {
             mViewModel.setTask((Task) getArguments().getSerializable(ARG_TASK));
@@ -129,6 +135,61 @@ public class EditTaskFragment extends Fragment implements IOnClickListener {
         mCallback.onEditBtnClickListener(
                 mViewModel.getTask().getUserId(),
                 mViewModel.getTask().getTaskState().toString());
+    }
+
+    private void setupViewModel() {
+        mViewModel.setOnClickListener(this);
+
+        mViewModel.setCallback(new CommonPartAddAndUpdateTask.CommonPartCallback() {
+            @Override
+            public void onCameraClickListener() {
+                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePicture.resolveActivity(getActivity().getPackageManager()) != null) {
+                    mViewModel.setPhotoFile(null);
+                    try {
+                        mViewModel.setPhotoFile(mViewModel.createImageFile());
+                    } catch (IOException e) {
+                        Log.e(ProgramUtils.TAG,
+                                "Taking photo part: Error occurred while creating the File : " + e.getMessage());
+                    }
+                }
+                if (mViewModel.getPhotoFile() != null) {
+                    Uri photoUri = FileProvider.getUriForFile(getActivity(),
+                            mViewModel.AUTHORITY, mViewModel.getPhotoFile());
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    EditTaskFragment.this.startActivityForResult(takePicture,
+                            mViewModel.REQUEST_CODE_TAKE_PICTURE);
+                }
+            }
+
+            @Override
+            public void onTimePickerClickListener() {
+                TimePickerFragment timePickerFragment=
+                        TimePickerFragment.newInstance(mViewModel.getTask().getDate());
+
+                // create parent-child relationship between AddTaskFragment and TimePickerFragment
+                timePickerFragment.setTargetFragment(EditTaskFragment.this,
+                        mViewModel.REQUEST_CODE_TIME_PICKER);
+
+                timePickerFragment.show
+                        (EditTaskFragment.this.getParentFragmentManager(),
+                                AddTaskFragment.TAG_ADD_TASK_FRAGMENT);
+            }
+
+            @Override
+            public void onDatePickerClickListener() {
+                DatePickerFragment datePickerFragment =
+                        DatePickerFragment.newInstance(mViewModel.getTask().getDate());
+
+                // create parent-child relationship between AddTaskFragment and DatePickerFragment
+                datePickerFragment.setTargetFragment(EditTaskFragment.this,
+                        mViewModel.REQUEST_CODE_DATE_PICKER);
+
+                datePickerFragment.show
+                        (EditTaskFragment.this.getParentFragmentManager(),
+                                AddTaskFragment.TAG_ADD_TASK_FRAGMENT);
+            }
+        });
     }
 
     public interface EditTaskFragmentCallback{
