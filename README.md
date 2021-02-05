@@ -25,6 +25,8 @@ This is a simple task manager application
  - [x] Admin page for managing users
  
  
+ ## Data Structure
+ - [x] MVVM
  
  ## External Libraries
  - Room , Glide
