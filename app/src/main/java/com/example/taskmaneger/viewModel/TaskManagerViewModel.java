@@ -1,24 +1,23 @@
 package com.example.taskmaneger.viewModel;
 
-import android.app.Application;
-
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 
 import com.example.taskmaneger.data.UserRepository;
 import com.example.taskmaneger.model.User;
 
-public class TaskManagerViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class TaskManagerViewModel extends ViewModel {
     private final UserRepository mUserRepository;
     private User mUser;
 
     private LifecycleOwner mLifecycleOwner;
 
-    public TaskManagerViewModel(@NonNull Application application) {
-        super(application);
-        mUserRepository=UserRepository.getInstance(getApplication());
+    @Inject
+    public TaskManagerViewModel(UserRepository userRepository) {
+        mUserRepository=userRepository;
     }
 
     public void setUserId(long userId) {

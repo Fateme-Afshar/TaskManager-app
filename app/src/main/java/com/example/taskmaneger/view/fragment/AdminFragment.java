@@ -18,12 +18,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.adapter.AdminAdapter;
 import com.example.taskmaneger.databinding.FragmentAdminBinding;
 import com.example.taskmaneger.model.User;
 import com.example.taskmaneger.viewModel.AdminViewModel;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +35,8 @@ import java.util.List;
  */
 public class AdminFragment extends Fragment {
     private FragmentAdminBinding mBinding;
-    private AdminViewModel mViewModel;
+    @Inject
+    public AdminViewModel mViewModel;
 
     private AdminAdapter mAdapter;
     private AdminFragmentCallback mCallback;
@@ -51,6 +55,7 @@ public class AdminFragment extends Fragment {
 
     @Override
     public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
         super.onAttach(context);
 
         if (context instanceof AdminFragmentCallback)
@@ -63,8 +68,6 @@ public class AdminFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mViewModel=new ViewModelProvider(this).get(AdminViewModel.class);
         mViewModel.getUserListLiveData().observe(this, new Observer<List<User>>() {
             @Override
             public void onChanged(List<User> userList) {

@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.databinding.FragmentAddTaskBinding;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.model.TaskState;
@@ -37,6 +38,8 @@ import com.example.taskmaneger.viewModel.CommonPartAddAndUpdateTask;
 
 import java.io.IOException;
 import java.util.Date;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,8 +58,8 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
 
     public String[] PERMISSION={"android.permission.CAMERA"};
     public int REQUEST_PERMISSION_CAMERA =526;
-
-    private AddTaskViewModel mViewModel;
+    @Inject
+    public AddTaskViewModel mViewModel;
     private AddTaskFragmentCallback mCallback;
 
     public AddTaskFragment() {
@@ -74,6 +77,7 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
 
     @Override
     public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
         super.onAttach(context);
 
         if (context instanceof AddTaskFragmentCallback)
@@ -92,8 +96,6 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
             taskState=getArguments().getString(ARG_TASK_STATE).toUpperCase();
         }
         mTaskState=TaskState.valueOf(taskState);
-
-        mViewModel=new ViewModelProvider(this).get(AddTaskViewModel.class);
         setupViewModel();
     }
 
@@ -142,7 +144,7 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
 
             mBinding.btnTime.setText(DateUtils.getShortTimeFormat(userSelectedTime));
         }else if (requestCode==AddTaskViewModel.REQUEST_CODE_TAKE_PICTURE){
-            Uri photoUri = mViewModel.getUriPhoto();
+            Uri photoUri = mViewModel.getUriPhoto(getActivity().getApplication());
 
             getActivity().revokeUriPermission(photoUri,
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -188,7 +190,7 @@ public class AddTaskFragment extends Fragment implements IOnClickListener {
                 if (takePicture.resolveActivity(getActivity().getPackageManager()) != null) {
                     mViewModel.setPhotoFile(null);
                     try {
-                        mViewModel.setPhotoFile(mViewModel.createImageFile());
+                        mViewModel.setPhotoFile(mViewModel.createImageFile(getActivity().getApplication()));
                     } catch (IOException e) {
                         Log.e(ProgramUtils.TAG,
                                 "Taking photo part: Error occurred while creating the File : " + e.getMessage());

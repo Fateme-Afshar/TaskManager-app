@@ -1,20 +1,19 @@
 package com.example.taskmaneger.viewModel;
 
-import android.app.Application;
 import android.text.Editable;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 
 import com.example.taskmaneger.R;
 import com.example.taskmaneger.data.UserRepository;
 import com.example.taskmaneger.model.User;
 import com.example.taskmaneger.utils.ViewUtils;
-import com.example.taskmaneger.view.activity.TaskManagerActivity;
 
-public class LoginViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class LoginViewModel extends ViewModel {
     private final UserRepository mRepository;
     private String mUsername;
     private String mPass;
@@ -22,9 +21,9 @@ public class LoginViewModel extends AndroidViewModel {
     private LifecycleOwner mLifecycleOwner;
     private LoginViewModelCallback mCallback;
 
-    public LoginViewModel(@NonNull Application application) {
-        super(application);
-        mRepository = UserRepository.getInstance(getApplication());
+    @Inject
+    public LoginViewModel(UserRepository userRepository) {
+        mRepository = userRepository;
     }
 
     public void afterTextChangedUsername(Editable username) {
@@ -54,11 +53,11 @@ public class LoginViewModel extends AndroidViewModel {
                                     mCallback.startAdminActivity();
                                 }
                             } else
-                                ViewUtils.returnToast(getApplication(), R.string.invalid_information);
+                                ViewUtils.returnToast( R.string.invalid_information);
                         }
                     });
                 } else
-                    ViewUtils.returnToast(getApplication(), R.string.user_dont_exist);
+                    ViewUtils.returnToast(R.string.user_dont_exist);
             }
         });
     }

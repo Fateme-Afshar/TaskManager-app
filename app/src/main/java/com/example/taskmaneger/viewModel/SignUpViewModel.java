@@ -1,13 +1,11 @@
 package com.example.taskmaneger.viewModel;
 
-import android.app.Application;
 import android.text.Editable;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 
 import com.example.taskmaneger.data.UserRepository;
 import com.example.taskmaneger.model.User;
@@ -15,15 +13,18 @@ import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.utils.ViewUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 
-public class SignUpViewModel extends AndroidViewModel {
-    private UserRepository mRepository = UserRepository.getInstance(getApplication());
+import javax.inject.Inject;
+
+public class SignUpViewModel extends ViewModel {
+    private UserRepository mRepository;
     private User mUser = new User();
     private IOnClickListener mOnSignBtnClickListener;
 
     private LifecycleOwner mLifecycleOwner;
 
-    public SignUpViewModel(@NonNull Application application) {
-        super(application);
+    @Inject
+    public SignUpViewModel(UserRepository userRepository) {
+        mRepository=userRepository;
     }
 
     public void setOnSignBtnClickListener(IOnClickListener onSignBtnClickListener) {
@@ -44,7 +45,7 @@ public class SignUpViewModel extends AndroidViewModel {
 
     public void onSignClickListener() {
         if (mUser==null){
-            ViewUtils.returnToast(getApplication(), "Username or password cann't be null");
+            ViewUtils.returnToast( "Username or password cann't be null");
             return;
         }
         if (!mUser.getUsername().equals("") && !mUser.getPassword().equals("")) {
@@ -53,7 +54,7 @@ public class SignUpViewModel extends AndroidViewModel {
                         public void onChanged(User user) {
                            if (user==null){
                                if (checkPassword(mUser.getPassword())) {
-                                   ViewUtils.returnToast(getApplication(), "User sign up successfully");
+                                   ViewUtils.returnToast("User sign up successfully");
                                    Log.d(ProgramUtils.TAG, "New User insert in database");
                                    mRepository.insert(mUser);
                                    try {
@@ -68,18 +69,18 @@ public class SignUpViewModel extends AndroidViewModel {
                                    }
                                }
                            } else
-                               ViewUtils.returnToast(getApplication(), "User already exist");
+                               ViewUtils.returnToast("User already exist");
                         }
                     });
         } else
-            ViewUtils.returnToast(getApplication(), "Username or password cann't be null");
+            ViewUtils.returnToast( "Username or password cann't be null");
     }
 
     public boolean checkPassword(String text) {
         if (text.length() >= 8)
             return true;
         else {
-            ViewUtils.returnToast(getApplication(), "Password length must be more than 8");
+            ViewUtils.returnToast("Password length must be more than 8");
             return false;
         }
     }

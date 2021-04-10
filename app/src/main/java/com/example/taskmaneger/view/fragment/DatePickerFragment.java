@@ -2,6 +2,7 @@ package com.example.taskmaneger.view.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,12 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.databinding.FragmentDatePickerBinding;
 import com.example.taskmaneger.viewModel.DatePickerViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +36,8 @@ public class DatePickerFragment extends DialogFragment {
     public static final String ARG_CURRENT_DATE = "Current Date";
     private FragmentDatePickerBinding mBinding;
 
-    private DatePickerViewModel mDatePickerViewModel;
+    @Inject
+    public DatePickerViewModel mDatePickerViewModel;
 
     private Date mCurrentDate;
     public DatePickerFragment() {
@@ -48,14 +53,18 @@ public class DatePickerFragment extends DialogFragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (getArguments()!=null)
             mCurrentDate= (Date) getArguments().
                     getSerializable(ARG_CURRENT_DATE);
-
-        mDatePickerViewModel=new ViewModelProvider(this).get(DatePickerViewModel.class);
     }
 
     @NonNull

@@ -1,15 +1,17 @@
 package com.example.taskmaneger.viewModel;
 
-import android.app.Application;
 import android.text.Editable;
 import android.util.Log;
 
+import com.example.taskmaneger.data.TaskRepository;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.model.TaskState;
 import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 
 import java.util.Date;
+
+import javax.inject.Inject;
 
 public class AddTaskViewModel extends CommonPartAddAndUpdateTask {
     private Task mTask = new Task();
@@ -18,8 +20,9 @@ public class AddTaskViewModel extends CommonPartAddAndUpdateTask {
 
     private IOnClickListener mOnClickListener;
 
-    public AddTaskViewModel(Application application) {
-        super(application);
+    @Inject
+    public AddTaskViewModel(TaskRepository  taskRepository) {
+        super(taskRepository);
     }
 
     public void setTaskState(TaskState taskState) {

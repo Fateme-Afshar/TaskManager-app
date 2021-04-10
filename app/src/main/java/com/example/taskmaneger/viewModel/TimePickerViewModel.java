@@ -7,17 +7,21 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
 import com.example.taskmaneger.databinding.FragmentAddTaskBinding;
 
 import java.util.Date;
 
-public class TimePickerViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class TimePickerViewModel extends ViewModel {
     public static final String EXTRA_USER_SELECTED_TIME =
             "com.example.taskmaneger.userSelectedTime";
 
-    public TimePickerViewModel(@NonNull Application application) {
-        super(application);
+    @Inject
+    public TimePickerViewModel() {
+
     }
 
     public void setResult(Fragment fragment, Date userSelectedTime){

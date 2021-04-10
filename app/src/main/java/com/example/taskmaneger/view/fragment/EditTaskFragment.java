@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.databinding.FragmentEditTaskBinding;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.utils.DateUtils;
@@ -34,6 +35,8 @@ import com.example.taskmaneger.viewModel.EditTaskViewModel;
 import java.io.IOException;
 import java.util.Date;
 
+import javax.inject.Inject;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link EditTaskFragment#newInstance} factory method to
@@ -41,7 +44,8 @@ import java.util.Date;
  */
 public class EditTaskFragment extends Fragment implements IOnClickListener {
     public static final String ARG_TASK = "Task Id";
-    private EditTaskViewModel mViewModel;
+    @Inject
+    public EditTaskViewModel mViewModel;
     private FragmentEditTaskBinding mBinding;
 
     private EditTaskFragmentCallback mCallback;
@@ -60,6 +64,7 @@ public class EditTaskFragment extends Fragment implements IOnClickListener {
 
     @Override
     public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
         super.onAttach(context);
 
         if (context instanceof EditTaskFragmentCallback)
@@ -72,7 +77,6 @@ public class EditTaskFragment extends Fragment implements IOnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(EditTaskViewModel.class);
         setupViewModel();
 
         if (getArguments() != null) {
@@ -110,7 +114,7 @@ public class EditTaskFragment extends Fragment implements IOnClickListener {
 
             mBinding.btnTime.setText(DateUtils.getShortTimeFormat(userSelectedTime));
         } else if (requestCode == AddTaskViewModel.REQUEST_CODE_TAKE_PICTURE) {
-            Uri photoUri = mViewModel.getUriPhoto();
+            Uri photoUri = mViewModel.getUriPhoto(getActivity().getApplication());
 
             getActivity().revokeUriPermission(photoUri,
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
@@ -147,7 +151,7 @@ public class EditTaskFragment extends Fragment implements IOnClickListener {
                 if (takePicture.resolveActivity(getActivity().getPackageManager()) != null) {
                     mViewModel.setPhotoFile(null);
                     try {
-                        mViewModel.setPhotoFile(mViewModel.createImageFile());
+                        mViewModel.setPhotoFile(mViewModel.createImageFile(getActivity().getApplication()));
                     } catch (IOException e) {
                         Log.e(ProgramUtils.TAG,
                                 "Taking photo part: Error occurred while creating the File : " + e.getMessage());

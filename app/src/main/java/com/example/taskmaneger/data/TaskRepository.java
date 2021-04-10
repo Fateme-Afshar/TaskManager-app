@@ -1,9 +1,6 @@
 package com.example.taskmaneger.data;
 
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
 
 import com.example.taskmaneger.data.room.TaskManagerDatabase;
 import com.example.taskmaneger.data.room.TaskTableDAO;
@@ -12,22 +9,16 @@ import com.example.taskmaneger.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class TaskRepository implements IRepository<Task>{
-    private static TaskRepository sInstance;
-    private Context mContext;
     private TaskTableDAO mDAO;
 
     private List<Task> mTaskList=new ArrayList<>();
 
-    private TaskRepository(Context context) {
-        mContext=context.getApplicationContext();
-        mDAO=TaskManagerDatabase.getDatabase(mContext).getTaskDao();
-    }
-
-    public static TaskRepository getInstance(Context context) {
-        if (sInstance==null)
-            sInstance=new TaskRepository(context);
-        return sInstance;
+    @Inject
+    public TaskRepository() {
+        mDAO=TaskManagerDatabase.getDatabase().getTaskDao();
     }
 
     @Override

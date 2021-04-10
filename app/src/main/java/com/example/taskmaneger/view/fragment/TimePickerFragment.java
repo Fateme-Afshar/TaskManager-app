@@ -2,6 +2,7 @@ package com.example.taskmaneger.view.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,11 +16,14 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.databinding.FragmentTimePickerBinding;
 import com.example.taskmaneger.viewModel.TimePickerViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,7 +34,8 @@ public class TimePickerFragment extends DialogFragment {
     public static final String ARG_CURRENT_TIME = "Current Time";
 
     private FragmentTimePickerBinding mBinding;
-    private TimePickerViewModel mViewModel;
+    @Inject
+    public TimePickerViewModel mViewModel;
 
     private Date mCurrentDate;
 
@@ -47,12 +52,16 @@ public class TimePickerFragment extends DialogFragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
             mCurrentDate = (Date) getArguments().getSerializable(ARG_CURRENT_TIME);
-
-        mViewModel = new ViewModelProvider(this).get(TimePickerViewModel.class);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

@@ -9,17 +9,20 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.databinding.FragmentLoginBinding;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.LoginViewModel;
 
+import javax.inject.Inject;
+
 public class LoginFragment extends Fragment
         implements IOnClickListener{
     private FragmentLoginBinding mBinding;
-    private LoginViewModel mViewModel;
+    @Inject
+    public LoginViewModel mViewModel;
 
     private LoginFragmentCallback mCallback;
 
@@ -36,6 +39,7 @@ public class LoginFragment extends Fragment
 
     @Override
     public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
         super.onAttach(context);
 
         if (context instanceof LoginFragmentCallback)
@@ -48,7 +52,6 @@ public class LoginFragment extends Fragment
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel=new ViewModelProvider(getActivity()).get(LoginViewModel.class);
         mViewModel.setLifecycleOwner(this);
         mViewModel.setCallback(new LoginViewModel.LoginViewModelCallback() {
             @Override

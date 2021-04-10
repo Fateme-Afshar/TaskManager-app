@@ -1,25 +1,17 @@
 package com.example.taskmaneger.viewModel;
 
-import android.Manifest;
-import android.app.Application;
-import android.content.pm.PackageManager;
-import android.os.Build;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.taskmaneger.data.TaskRepository;
-import com.example.taskmaneger.data.UserRepository;
-import com.example.taskmaneger.data.UserWithTask;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.view.IOnClickListener;
 
 import java.util.List;
 
-public class StateViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class StateViewModel extends ViewModel {
     private static final int MY_PERMISSIONS_REQUEST_CAMERA = 1;
     private TaskRepository mTaskRepository;
 
@@ -27,9 +19,9 @@ public class StateViewModel extends AndroidViewModel {
 
     private String PERMISSION="android.permission.CAMERA";
 
-    public StateViewModel(@NonNull Application application) {
-        super(application);
-        mTaskRepository=TaskRepository.getInstance(getApplication());
+    @Inject
+    public StateViewModel(TaskRepository taskRepository) {
+        mTaskRepository=taskRepository;
     }
 
     public void setOnClickListener(IOnClickListener onClickListener) {

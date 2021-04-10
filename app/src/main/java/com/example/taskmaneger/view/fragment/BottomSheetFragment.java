@@ -17,12 +17,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.databinding.BottomSheetFragmentBinding;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.utils.ProgramUtils;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.BottomSheetViewModel;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,8 +34,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
  */
 public class BottomSheetFragment extends BottomSheetDialogFragment implements IOnClickListener{
     public static final String ARG_TASK_ID = "Task Id";
-
-    private BottomSheetViewModel mViewModel;
+    @Inject
+    public BottomSheetViewModel mViewModel;
 
     private BottomSheetFragmentBinding mBinding;
 
@@ -54,6 +57,7 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements IO
 
     @Override
     public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
         super.onAttach(context);
 
         if (context instanceof BottomSheetFragmentCallback)
@@ -66,7 +70,6 @@ public class BottomSheetFragment extends BottomSheetDialogFragment implements IO
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mViewModel=new ViewModelProvider(this).get(BottomSheetViewModel.class);
         if (getArguments() != null) {
             mTaskId=getArguments().getLong(ARG_TASK_ID);
             mViewModel.setLifecycleOwner(this);

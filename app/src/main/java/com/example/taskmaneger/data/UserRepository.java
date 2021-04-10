@@ -1,9 +1,6 @@
 package com.example.taskmaneger.data;
 
-import android.content.Context;
-
 import androidx.lifecycle.LiveData;
-import androidx.room.Room;
 
 import com.example.taskmaneger.data.room.TaskManagerDatabase;
 import com.example.taskmaneger.data.room.UserTableDAO;
@@ -11,9 +8,12 @@ import com.example.taskmaneger.model.User;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 public class UserRepository implements IRepository<User> {
     private UserTableDAO mDAO;
 
+    @Inject
     public UserRepository() {
         TaskManagerDatabase database =
                 TaskManagerDatabase.getDatabase();

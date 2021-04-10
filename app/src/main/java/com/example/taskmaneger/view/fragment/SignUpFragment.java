@@ -9,16 +9,19 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.databinding.FragmentSignupBinding;
 import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.SignUpViewModel;
 
+import javax.inject.Inject;
+
 public class SignUpFragment extends Fragment implements IOnClickListener {
     private FragmentSignupBinding mBinding;
-    private SignUpViewModel mViewModel;
+    @Inject
+    public SignUpViewModel mViewModel;
 
     private SignUpFragmentCallback mCallback;
 
@@ -34,6 +37,7 @@ public class SignUpFragment extends Fragment implements IOnClickListener {
     }
 
     public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
         super.onAttach(context);
         if (context instanceof SignUpFragmentCallback)
             mCallback=(SignUpFragmentCallback) context;
@@ -45,8 +49,6 @@ public class SignUpFragment extends Fragment implements IOnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mViewModel=new ViewModelProvider(getActivity()).get(SignUpViewModel.class);
         mViewModel.setLifecycleOwner(this);
         mViewModel.setOnSignBtnClickListener(this);
     }

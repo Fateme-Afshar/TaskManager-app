@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.adapter.TasksAdapter;
 import com.example.taskmaneger.databinding.FragmentStateBinding;
 import com.example.taskmaneger.model.Task;
@@ -28,6 +29,8 @@ import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.StateViewModel;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,7 +49,8 @@ public class StateFragment extends Fragment implements IOnClickListener {
     private TasksAdapter mAdapter;
 
     private FragmentStateBinding mBinding;
-    private StateViewModel mViewModel;
+    @Inject
+    public StateViewModel mViewModel;
 
     public StateFragment() {
         // Required empty public constructor
@@ -63,6 +67,7 @@ public class StateFragment extends Fragment implements IOnClickListener {
 
     @Override
     public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
         super.onAttach(context);
 
         if (context instanceof StateFragmentCallback)
@@ -91,8 +96,6 @@ public class StateFragment extends Fragment implements IOnClickListener {
             mUserId=getArguments().getLong(ARG_USER_ID);
             mTaskState=getArguments().getString(ARG_TASK_STATE).toUpperCase();
         }
-
-        mViewModel=new ViewModelProvider(this).get(StateViewModel.class);
         mViewModel.getTaskListWithState(mTaskState,mUserId).observe(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> taskList) {

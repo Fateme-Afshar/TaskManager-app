@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.adapter.TaskManagerAdapter;
 import com.example.taskmaneger.databinding.FragmentTaskManagerBinding;
 import com.example.taskmaneger.model.TaskState;
@@ -20,6 +21,8 @@ import com.example.taskmaneger.view.IOnClickListener;
 import com.example.taskmaneger.viewModel.TaskManagerViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import javax.inject.Inject;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +34,8 @@ public class TaskManagerFragment extends Fragment {
     private long mUserId;
     private FragmentTaskManagerBinding mBinding;
 
-    private TaskManagerViewModel mViewModel;
+    @Inject
+    public TaskManagerViewModel mViewModel;
 
     private TaskManagerAdapter mTaskAdapter;
 
@@ -51,11 +55,14 @@ public class TaskManagerFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        TaskManagerApplication.getApplicationGraph().inject(this);
+        super.onAttach(context);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        mViewModel = new ViewModelProvider(this).
-                get(TaskManagerViewModel.class);
 
         if (getArguments() != null) {
             mUserId=getArguments().getLong(ARGS_USER_ID);

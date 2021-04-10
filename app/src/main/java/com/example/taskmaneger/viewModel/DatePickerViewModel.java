@@ -7,15 +7,19 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
 import java.util.Date;
 
-public class DatePickerViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class DatePickerViewModel extends ViewModel {
     public static final String EXTRA_USER_SELECTED_DATE =
             " com.example.taskmaneger.userSelectedDate";
 
-    public DatePickerViewModel(@NonNull Application application) {
-        super(application);
+    @Inject
+    public DatePickerViewModel() {
+
     }
 
     public void setResult(Fragment fragment, Date userSelectedDate) {

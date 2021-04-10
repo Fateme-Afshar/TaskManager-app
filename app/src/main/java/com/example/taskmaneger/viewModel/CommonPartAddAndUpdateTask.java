@@ -10,7 +10,9 @@ import android.util.Log;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.ViewModel;
 
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.data.TaskRepository;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.model.TaskState;
@@ -24,7 +26,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
+public abstract  class CommonPartAddAndUpdateTask extends ViewModel {
     public static final int REQUEST_CODE_DATE_PICKER = 1;
     public static final int REQUEST_CODE_TIME_PICKER = 2;
     public static final int REQUEST_CODE_TAKE_PICTURE = 3;
@@ -35,9 +37,8 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
 
     private CommonPartCallback mCallback;
 
-    public CommonPartAddAndUpdateTask(Application application) {
-        super(application);
-        mRepository=TaskRepository.getInstance(application);
+    public CommonPartAddAndUpdateTask(TaskRepository taskRepository) {
+        mRepository=taskRepository;
         mTask=getTask();
     }
 
@@ -55,12 +56,12 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
         mCallback.onCameraClickListener();
     }
 
-    public File createImageFile() throws IOException {
+    public File createImageFile(Application application) throws IOException {
         String timeStamp =
                 new SimpleDateFormat("yyyyMMdd_HHmmss").
                         format(new Date());
         String imageName = "JPEG" + timeStamp + "_";
-        File storageDir = getApplication().getFilesDir();
+        File storageDir = application.getFilesDir();
         return File.createTempFile(imageName,
                 ".jpg",
                 storageDir);
@@ -72,8 +73,8 @@ public abstract  class CommonPartAddAndUpdateTask extends AndroidViewModel {
 
     public abstract Task getTask();
 
-    public Uri getUriPhoto() {
-        return FileProvider.getUriForFile(getApplication(), AUTHORITY, mPhotoFile);
+    public Uri getUriPhoto(Application application) {
+        return FileProvider.getUriForFile(application, AUTHORITY, mPhotoFile);
     }
 
     public Date getUserSelectedTime(Intent data) {

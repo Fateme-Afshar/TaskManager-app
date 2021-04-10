@@ -1,24 +1,20 @@
 package com.example.taskmaneger.viewModel;
 
-import android.app.Activity;
-import android.app.Application;
-import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ShareCompat;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 
 import com.example.taskmaneger.R;
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.data.TaskRepository;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.view.IOnClickListener;
 
 import java.text.DateFormat;
 
-public class BottomSheetViewModel extends AndroidViewModel {
+import javax.inject.Inject;
+
+public class BottomSheetViewModel extends ViewModel {
     private TaskRepository mRepository;
     private long mTaskId;
     private Task mTask;
@@ -28,9 +24,9 @@ public class BottomSheetViewModel extends AndroidViewModel {
 
     private BottomSheetFragmentViewModelCallback mCallback;
 
-    public BottomSheetViewModel(@NonNull Application application) {
-        super(application);
-        mRepository=TaskRepository.getInstance(getApplication());
+    @Inject
+    public BottomSheetViewModel(TaskRepository taskRepository) {
+        mRepository=taskRepository;
     }
 
     public Task getTask() {
@@ -74,7 +70,7 @@ public class BottomSheetViewModel extends AndroidViewModel {
     }
 
     private String getInfoTask(){
-        return getApplication().getString(R.string.all_task_info,
+        return TaskManagerApplication.getApplicationGraph().getContext().getString(R.string.all_task_info,
                 mTask.getTitle(),
                 mTask.getDescription(),
                 mTask.getTaskState().toString(),

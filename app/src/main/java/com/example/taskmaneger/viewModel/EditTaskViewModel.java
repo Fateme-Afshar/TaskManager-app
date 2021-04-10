@@ -1,20 +1,22 @@
 package com.example.taskmaneger.viewModel;
 
-import android.app.Application;
 import android.text.Editable;
 
+import com.example.taskmaneger.data.TaskRepository;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.view.IOnClickListener;
 
 import java.util.Date;
 
+import javax.inject.Inject;
+
 public class EditTaskViewModel extends CommonPartAddAndUpdateTask {
     private Task mTask;
-    private long mTaskId;
     private IOnClickListener mOnClickListener;
 
-    public EditTaskViewModel(Application application) {
-        super(application);
+    @Inject
+    public EditTaskViewModel(TaskRepository taskRepository) {
+        super(taskRepository);
     }
 
     @Override
