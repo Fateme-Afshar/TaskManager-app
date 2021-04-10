@@ -43,18 +43,23 @@ public class SignUpViewModel extends AndroidViewModel {
     }
 
     public void onSignClickListener() {
+        if (mUser==null){
+            ViewUtils.returnToast(getApplication(), "Username or password cann't be null");
+            return;
+        }
         if (!mUser.getUsername().equals("") && !mUser.getPassword().equals("")) {
                     mRepository.get(mUser.getUsername()).observe(mLifecycleOwner, new Observer<User>() {
                         @Override
                         public void onChanged(User user) {
                            if (user==null){
                                if (checkPassword(mUser.getPassword())) {
+                                   ViewUtils.returnToast(getApplication(), "User sign up successfully");
                                    Log.d(ProgramUtils.TAG, "New User insert in database");
                                    mRepository.insert(mUser);
                                    try {
                                        mOnSignBtnClickListener.onButtonClickListener();
-                                   }catch (NullPointerException e){
-                                       Log.e(ProgramUtils.TAG," SignUpViewModel : "+e.toString());
+                                   } catch (NullPointerException e) {
+                                       Log.e(ProgramUtils.TAG, " SignUpViewModel : " + e.toString());
                                    }
 
                                    if (mUser.isAdmin()) {
@@ -62,7 +67,8 @@ public class SignUpViewModel extends AndroidViewModel {
                                        //TODO: check user is admin. if user is admin start Admin activity else start TaskManager activity.
                                    }
                                }
-                           }
+                           } else
+                               ViewUtils.returnToast(getApplication(), "User already exist");
                         }
                     });
         } else
