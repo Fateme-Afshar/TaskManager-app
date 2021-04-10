@@ -12,23 +12,13 @@ import com.example.taskmaneger.model.User;
 import java.util.List;
 
 public class UserRepository implements IRepository<User> {
-    private static UserRepository sInstance;
-    private Context mContext;
-
     private UserTableDAO mDAO;
 
-    private UserRepository(Context context) {
-        mContext = context.getApplicationContext();
+    public UserRepository() {
         TaskManagerDatabase database =
-                TaskManagerDatabase.getDatabase(context);
+                TaskManagerDatabase.getDatabase();
 
         mDAO = database.getUserDao();
-    }
-
-    public static UserRepository getInstance(Context context) {
-        if (sInstance == null)
-            sInstance = new UserRepository(context);
-        return sInstance;
     }
 
     @Override

@@ -7,6 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 
+import com.example.taskmaneger.TaskManagerApplication;
 import com.example.taskmaneger.data.TaskManagerSchema;
 import com.example.taskmaneger.model.Task;
 import com.example.taskmaneger.model.User;
@@ -25,9 +26,9 @@ public abstract class TaskManagerDatabase extends RoomDatabase {
     public static ExecutorService databaseWriteExecutor=
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    public static TaskManagerDatabase getDatabase(Context context){
+    public static TaskManagerDatabase getDatabase(){
         return Room.databaseBuilder
-                (context.getApplicationContext(),
+                (TaskManagerApplication.getApplicationGraph().getContext(),
                         TaskManagerDatabase.class,
                         TaskManagerSchema.NAME).build();
     }
